@@ -37,6 +37,7 @@
     <span style="opacity:0.4">•</span>
     <a href="https://digitallocker.gov.in" target="_blank" rel="noopener" title="DigiLocker National Cloud">DigiLocker</a>
     <span style="opacity:0.4">•</span>
+    <button onclick="showArchivesPublic()" class="a11y-btn" style="background:#ffbe00;color:#0c2340;font-weight:bold;margin-right:4px;cursor:pointer">📂 Public Archives (2021–2027)</button>
     <span style="color:#ffbe00;font-weight:700">English | हिन्दी</span>
   </div>
 </div>
@@ -80,12 +81,23 @@
     </div>
   </div>
   <div class="gov-brand-right">
+    <!-- Universal Search Bar by Record ID / ULPIN / Survey No / Gazette ID -->
+    <div class="gov-search-wrap">
+      <div class="gov-search-box">
+        <input id="universal-search-input" placeholder="Search Record ID, ULPIN, Survey No, Project..." onkeydown="handleSearchInput(event)" />
+        <button class="btn-gov-search" onclick="executeSearch()">🔍 Search</button>
+      </div>
+      <div class="gov-search-quick-tags">
+        <span>Sample:</span>
+        <a href="javascript:void(0)" onclick="searchRecord('LA-2026-001')">LA-2026-001</a>
+        <a href="javascript:void(0)" onclick="searchRecord('KA-00121')">KA-00121</a>
+        <a href="javascript:void(0)" onclick="searchRecord('ULPIN-KA-29-0121')">ULPIN</a>
+        <a href="javascript:void(0)" onclick="searchRecord('Sy 112/3')">Sy 112/3</a>
+      </div>
+    </div>
     <div class="gov-seal-badge">
       <strong>GIGW 3.0 &amp; STQC COMPLIANT</strong>
       <span>Govt. Interoperability Standard</span>
-    </div>
-    <div class="gov-swachh-badge" title="Digital India • Swachh Bharat">
-      🇮🇳
     </div>
   </div>
 </header>
@@ -162,6 +174,15 @@
 
       <button class="btn-gov-primary" onclick="login()">🔐 Secure Login / डिजिटल प्रवेश</button>
 
+      <!-- Public Archives & Multi-Year Records Banner (Can be seen by all without logging in) -->
+      <div class="public-archives-banner">
+        <div>
+          <strong style="color:#0c4a6e;font-size:12.5px">📂 Public Multi-Year Archives &amp; Open Data:</strong>
+          <p style="font-size:11.5px;color:#334155;margin-top:2px">Access verified previous years records (2021–2027) of occupied land, active working land, and financial budgets open to all citizens.</p>
+        </div>
+        <button type="button" class="btn-standard" style="background:#0284c7;white-space:nowrap;margin-top:6px;width:100%" onclick="showArchivesPublic()">📊 View Multi-Year Public Archives &rarr;</button>
+      </div>
+
       <!-- Quick Demo Role Switcher for Judges & Reviewers -->
       <div class="quick-roles-picker">
         <p>⚡ Quick Demo Role Selector (Password: demo123):</p>
@@ -210,6 +231,8 @@
   <button onclick="showPage('alerts')" id="nav-alerts">🔔 Statutory Alerts <span id="nav-alert-count"></span></button>
   <button onclick="showPage('analytics')" id="nav-analytics">📊 National Analytics</button>
   <button onclick="showPage('audit')" id="nav-audit">🛡️ Cyber Audit Trail</button>
+  <button onclick="showPage('archives')" id="nav-archives">🏛️ Multi-Year Archives (2021–2027)</button>
+  <button onclick="showPage('backend')" id="nav-backend">💻 Python &amp; SQL Backend</button>
 </nav>
 
 <!-- ── 6. Secondary Officer Session & Breadcrumb Strip ── -->
@@ -450,10 +473,19 @@
       <strong>Data Privacy &amp; Masking Directive (DPDP Act 2023):</strong> Landowner names, 12-digit Aadhaar, and bank account details are strictly tokenized/masked for all public and field roles. Survey and RTC numbers are verified against State Revenue Bhoomi database.
     </div>
 
-    <div style="display:flex;gap:16px;margin-bottom:8px;font-size:12.5px;font-weight:600">
-      <span>🟢 Acquired &amp; Possessed</span>
-      <span>🟡 Under Statutory Process (Sec 11/19)</span>
-      <span>🔴 Compensation / Dispute Pending</span>
+    <!-- Interactive Map Filter Buttons -->
+    <div class="map-filter-group">
+      <button class="map-filter-btn active" id="mf-all" onclick="filterMap('ALL')">🌐 All Land Parcels (8)</button>
+      <button class="map-filter-btn" id="mf-working" onclick="filterMap('WORKING')">🚧 Active Working Land / Construction (5)</button>
+      <button class="map-filter-btn" id="mf-occupied" onclick="filterMap('OCCUPIED')">🟢 Occupied &amp; Possessed (5)</button>
+      <button class="map-filter-btn" id="mf-pending" onclick="filterMap('PENDING')">🔴 Pending Acquisition (3)</button>
+    </div>
+
+    <div style="display:flex;gap:16px;margin:10px 0 8px;font-size:12.5px;font-weight:600;flex-wrap:wrap">
+      <span style="color:#ea580c">🚧 <b>Active Working Land:</b> Civil earthwork, paving &amp; bridge construction ongoing</span>
+      <span style="color:#16a34a">🟢 <b>Occupied Land:</b> Possession handed over to executing agency</span>
+      <span style="color:#ca8a04">🟡 <b>Under Statutory Process:</b> Sec 11/19 valuation &amp; consent</span>
+      <span style="color:#dc2626">🔴 <b>Pending Possession:</b> Compensation dispute under review</span>
     </div>
 
     <div id="map"></div>
@@ -653,6 +685,153 @@
     </div>
   </section>
 
+
+  <!-- ── PAGE 11: MULTI-YEAR HISTORICAL ARCHIVES (2021–2027) ── -->
+  <section id="page-archives" class="page" style="display:none">
+    <div class="page-header-row">
+      <div>
+        <h2 class="page-title-main">🏛️ Multi-Year Statutory Land Acquisition Archives (2021–2027)</h2>
+        <p class="page-title-sub">Public Open Data: Historical Occupied Land, Active Working Land, and Multi-Year Budget Disbursals</p>
+      </div>
+      <div>
+        <button class="btn-standard" onclick="exportArchivesCSV()">📥 Export Historical CSV</button>
+      </div>
+    </div>
+
+    <div class="gov-guideline-note">
+      <strong>Public Open Data Disclosure:</strong> In accordance with Section 4(1)(b) of the RTI Act 2005 and National Data Sharing Policy, historical multi-year records of land occupied, land under active construction, and project budget allocations are accessible to all citizens and statutory auditors.
+    </div>
+
+    <!-- Multi-Year Cumulative Summary Cards -->
+    <div class="cards-row">
+      <div class="gov-stat-card">
+        <h4>Total Land Occupied (Cumul.)</h4>
+        <p style="color:#16a34a">61,200 <span style="font-size:15px">Acres</span></p>
+      </div>
+      <div class="gov-stat-card orange">
+        <h4>Active Working Land (Construction)</h4>
+        <p style="color:#ea580c">38,500 <span style="font-size:15px">Acres</span></p>
+      </div>
+      <div class="gov-stat-card">
+        <h4>Total Sanctioned Budget</h4>
+        <p>₹4,890 <span style="font-size:15px">Cr</span></p>
+      </div>
+      <div class="gov-stat-card green">
+        <h4>PFMS Disbursed (86.9%)</h4>
+        <p style="color:#1a3d6d">₹4,248.5 <span style="font-size:15px">Cr</span></p>
+      </div>
+    </div>
+
+    <!-- Historical Year-by-Year Table -->
+    <div class="gov-panel">
+      <div class="gov-panel-header">
+        <h3>📋 Previous Years Official Records (FY 2021–22 to FY 2026–27)</h3>
+      </div>
+      <div class="gov-panel-body" style="padding:0">
+        <div style="overflow-x:auto">
+          <table class="gov-table" style="margin:0">
+            <thead>
+              <tr>
+                <th>Financial Year</th>
+                <th>Occupied Land</th>
+                <th>Active Working Land</th>
+                <th>Sanctioned Budget</th>
+                <th>PFMS DBT Disbursed</th>
+                <th>Families Compensated</th>
+                <th>Corridors</th>
+                <th>Statutory &amp; Construction Summary</th>
+              </tr>
+            </thead>
+            <tbody id="archives-rows"></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- Comparative Visual Charts -->
+    <div id="archives-charts"></div>
+  </section>
+
+  <!-- ── PAGE 12: PYTHON & SQL BACKEND GATEWAY CONSOLE ── -->
+  <section id="page-backend" class="page" style="display:none">
+    <div class="page-header-row">
+      <div>
+        <h2 class="page-title-main">💻 Python &amp; SQL Backend Architecture &amp; Database Console</h2>
+        <p class="page-title-sub">FastAPI REST Services, SQLAlchemy ORM, and Interactive SQLite/PostgreSQL Query Engine</p>
+      </div>
+      <div id="backend-status-indicator">
+        <span class="badge low">🟢 Checking Engine...</span>
+      </div>
+    </div>
+
+    <div class="gov-guideline-note">
+      <strong>Enterprise Backend Architecture:</strong> Powered by <strong>Python (FastAPI + SQLAlchemy)</strong> in <code>backend/main.py</code> with production relational schema defined in <code>backend/schema.sql</code>. Evaluators can run live SQL queries below on multi-year archives, geo-parcels, and project portfolios.
+    </div>
+
+    <!-- Live SQL Query Console -->
+    <div class="gov-panel">
+      <div class="gov-panel-header">
+        <h3>⚡ Interactive SQL Query Runner (Read-Only Safety Enforcement)</h3>
+        <div>
+          <label style="font-size:12px;font-weight:700">Pre-built Query Templates: </label>
+          <select id="sql-query-select" onchange="selectSQLTemplate()" style="padding:4px 8px;font-size:12px">
+            <option value="SELECT financial_year, occupied_land_acres, working_land_acres, budget_allocated_crores, budget_spent_crores FROM historical_records ORDER BY financial_year;">1. Multi-Year Occupied vs Working Land Summary</option>
+            <option value="SELECT parcel_id, ulpin, village, survey_number, working_acres, work_progress, work_progress_pct, contractor FROM parcels WHERE working_acres > 0;">2. Active Working Land Construction Parcels</option>
+            <option value="SELECT project_id, name, state, total_land_acres, working_land_acres, occupied_land_acres, budget_estimate_crores, status FROM projects;">3. Major Highway Projects &amp; Budget Allocation</option>
+            <option value="SELECT parcel_id, ulpin, village, survey_number, area_acres, compensation_amount FROM parcels WHERE parcel_id = 'KA-00121' OR ulpin = 'ULPIN-KA-29-0121';">4. Search Parcel by Record ID or ULPIN</option>
+          </select>
+        </div>
+      </div>
+      <div class="gov-panel-body">
+        <textarea id="sql-query-input" rows="3" style="width:100%;font-family:monospace;font-size:13px;padding:10px;border:1px solid #94a3b8;border-radius:3px;background:#f8fafc">SELECT financial_year, occupied_land_acres, working_land_acres, budget_allocated_crores, budget_spent_crores FROM historical_records ORDER BY financial_year;</textarea>
+        <div style="margin-top:8px;display:flex;justify-content:space-between;align-items:center">
+          <button class="btn-standard" style="background:#1a3d6d" onclick="executeSQLQuery()">▶ Execute SQL Query</button>
+          <span style="font-size:11.5px;color:#64748b">Queries execute against SQLite / PostgreSQL NLAMS Database Engine</span>
+        </div>
+        <div id="sql-query-output" style="margin-top:14px"></div>
+      </div>
+    </div>
+
+    <!-- Python Architecture Cards -->
+    <div class="grid2">
+      <div class="gov-panel">
+        <div class="gov-panel-header"><h3>🐍 Python FastAPI REST API Endpoints</h3></div>
+        <div class="gov-panel-body">
+          <table class="gov-table" style="margin:0">
+            <thead><tr><th>HTTP Method</th><th>Endpoint</th><th>Description</th></tr></thead>
+            <tbody>
+              <tr><td><span class="badge low">GET</span></td><td><code>/api/historical-records</code></td><td>Previous years occupied land, working land, and budgets</td></tr>
+              <tr><td><span class="badge low">GET</span></td><td><code>/api/parcels</code></td><td>Bhuvan GIS geo-parcels with active construction</td></tr>
+              <tr><td><span class="badge low">GET</span></td><td><code>/api/parcels/search?q={id}</code></td><td>Search by Record ID, ULPIN, Survey No, Gazette ID</td></tr>
+              <tr><td><span class="badge low">GET</span></td><td><code>/api/projects</code></td><td>All national highway acquisition proposals</td></tr>
+              <tr><td><span class="badge med">POST</span></td><td><code>/api/sql-query</code></td><td>Read-only SQL runner for backend inspection</td></tr>
+              <tr><td><span class="badge med">POST</span></td><td><code>/api/auth/login</code></td><td>Parichay Single Sign-On authentication</td></tr>
+            </tbody>
+          </table>
+          <div style="margin-top:10px;font-size:12px;color:#475569">
+            <strong>To run local server:</strong> <code>uvicorn backend.main:app --reload --port 8000</code>
+          </div>
+        </div>
+      </div>
+
+      <div class="gov-panel">
+        <div class="gov-panel-header"><h3>🗄️ Relational Database Schema (SQLAlchemy Models)</h3></div>
+        <div class="gov-panel-body">
+          <div style="font-family:monospace;font-size:11.5px;background:#f8fafc;padding:10px;border:1px solid #e2e8f0;line-height:1.6">
+            <strong>1. projects:</strong> id, project_id, name, state, total_land_acres, working_land_acres, occupied_land_acres, budget_estimate_crores, status<br/>
+            <strong>2. parcels:</strong> id, parcel_id, ulpin, village, survey_number, rtc_number, latitude, longitude, area_acres, occupied_acres, working_acres, work_progress, contractor<br/>
+            <strong>3. historical_records:</strong> id, financial_year, state, occupied_land_acres, working_land_acres, budget_allocated_crores, budget_spent_crores, families_compensated<br/>
+            <strong>4. milestones:</strong> id, project_id, name, stage_order, status, sla_days<br/>
+            <strong>5. audit_logs:</strong> id, user_email, action, entity_type, entity_id, ip_address, created_at
+          </div>
+          <div style="margin-top:10px;font-size:12px;color:#475569">
+            Source file: <code style="color:#0d47a1">backend/schema.sql</code> and <code style="color:#0d47a1">backend/models.py</code>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
 </main>
 
 <!-- ══════════════════════════════════════════════════════════════
@@ -721,6 +900,14 @@
 </div><!-- /#app -->
 
 <script src="app.js"></script>
+
+<!-- ── Universal Search Record Modal ── -->
+<div id="search-modal" class="search-modal-overlay" style="display:none">
+  <div class="search-modal-card">
+    <div id="search-modal-content"></div>
+  </div>
+</div>
+
 </body>
 </html>
 

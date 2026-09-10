@@ -932,3 +932,113 @@ footer.gov-portal-footer {
   .gov-brand-header { flex-direction: column; align-items: flex-start; }
 }
 
+
+
+/* ── Universal Search Bar (Header) ── */
+.gov-search-wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 3px;
+}
+.gov-search-box {
+  display: flex;
+  align-items: center;
+  border: 2px solid var(--gov-blue-primary);
+  border-radius: 3px;
+  overflow: hidden;
+  background: #ffffff;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+}
+.gov-search-box input {
+  border: 0;
+  padding: 6px 10px;
+  font-size: 12px;
+  width: 280px;
+  outline: none;
+  color: #1e293b;
+}
+.btn-gov-search {
+  background: var(--gov-blue-primary);
+  color: #ffffff;
+  border: 0;
+  padding: 6px 12px;
+  font-size: 12px;
+  font-weight: 700;
+  cursor: pointer;
+  border-radius: 0;
+}
+.btn-gov-search:hover { background: #0f2c52; }
+.gov-search-quick-tags {
+  font-size: 10.5px;
+  color: #64748b;
+  display: flex;
+  gap: 6px;
+  align-items: center;
+}
+.gov-search-quick-tags a {
+  color: var(--gov-blue-primary);
+  text-decoration: underline;
+  font-weight: 600;
+}
+
+/* ── Public Archives Banner (Login Screen) ── */
+.public-archives-banner {
+  background: #f0f9ff;
+  border: 1px solid #bae6fd;
+  border-left: 4px solid #0284c7;
+  padding: 12px 14px;
+  border-radius: 3px;
+  margin-top: 16px;
+}
+
+/* ── Map Filter Buttons ── */
+.map-filter-group {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin: 10px 0;
+}
+.map-filter-btn {
+  background: #ffffff;
+  border: 1px solid #cbd5e1;
+  color: #334155;
+  padding: 6px 12px;
+  font-size: 12px;
+  font-weight: 700;
+  border-radius: 3px;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+.map-filter-btn:hover {
+  background: #f1f5f9;
+  border-color: #94a3b8;
+}
+.map-filter-btn.active {
+  background: var(--gov-blue-primary);
+  color: #ffffff;
+  border-color: var(--gov-blue-primary);
+}
+
+/* ── Universal Search Modal ── */
+.search-modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(12,35,64,0.75);
+  z-index: 99999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+.search-modal-card {
+  background: #ffffff;
+  max-width: 780px;
+  width: 100%;
+  max-height: 88vh;
+  overflow-y: auto;
+  border-radius: 4px;
+  border-top: 5px solid var(--gov-blue-primary);
+  box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+  padding: 24px;
+}
