@@ -1,34 +1,149 @@
-*{box-sizing:border-box}body{font-family:"Segoe UI",Arial,sans-serif;margin:0;background:#eef2f7;color:#1c2b3a}
-.gov-strip{background:#0b3d62;color:#fff;font-size:12px;padding:6px 14px;display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap}
-.gov-strip a{color:#ffdf5d}.tricolor{height:5px;background:linear-gradient(to right,#FF9933 33%,#fff 33% 66%,#138808 66%)}
-.login-wrap{min-height:90vh;display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg,#eaf1f8,#fff);padding:16px}
-.gov-card{border-top:6px solid #0b3d62}.login-card{background:#fff;padding:26px;border-radius:12px;width:480px;max-width:94vw;box-shadow:0 8px 30px rgba(0,0,0,.2)}
-.emblem{font-weight:bold;color:#0b3d62}.login-card h1{margin:4px 0;font-size:22px}.sub{color:#444;font-size:13px}
-.secure-line{background:#e8f5e9;border:1px solid #2ecc71;padding:6px;border-radius:6px;font-size:12px;margin:8px 0}
-.login-card label{display:block;margin:9px 0;font-size:14px}.login-card input,.login-card select{width:100%;padding:9px;margin-top:4px;border:1px solid #888;border-radius:6px}
-.login-card button{width:100%;padding:11px;background:#0b3d62;color:#fff;border:0;border-radius:8px;cursor:pointer;font-size:16px;margin-top:10px}
-.demo{font-size:12px;background:#f4f6f9;padding:8px;border-radius:8px;margin-top:10px}.err{color:#b00020}
-.gov-header{background:#fff;color:#0b3d62;padding:10px 16px;display:flex;justify-content:space-between;align-items:center;border-bottom:3px solid #0b3d62}
-.emblem-sm{font-size:12px;font-weight:bold}.gov-header h2{margin:0;font-size:18px}.live{background:#1e7e34;color:#fff;padding:4px 10px;border-radius:20px;font-size:12px}
-nav{background:#0b3d62;padding:8px;display:flex;gap:6px;flex-wrap:wrap;position:sticky;top:0;z-index:500}
-nav button{padding:8px 10px;border:1px solid #fff;background:#fff;border-radius:8px;cursor:pointer}
-main{padding:16px;max-width:1150px;margin:auto}
-.cards{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin:10px 0}
-.card{background:#fff;padding:12px;border-radius:10px;text-align:center;box-shadow:0 1px 4px rgba(0,0,0,.1)}
-.card p{font-size:22px;font-weight:bold;margin:6px 0}.green{border-top:5px solid #2ecc71}.orange{border-top:5px solid #f39c12}.red{border-top:5px solid #e74c3c}
-.grid2{display:grid;grid-template-columns:1fr 1fr;gap:12px}.panel{background:#fff;padding:12px;border-radius:10px;margin:10px 0;box-shadow:0 1px 4px rgba(0,0,0,.08)}
-.dept-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}.dept{background:#fff;border:1px solid #0b3d62;border-radius:10px;padding:10px}
-.dept h4{margin:4px 0}.dept small{color:#555}.dept a{font-size:12px}
-table{width:100%;border-collapse:collapse;background:#fff;border-radius:10px;overflow:hidden;margin:10px 0}
-th,td{padding:9px;border-bottom:1px solid #eee;font-size:13px;text-align:left}th{background:#0b3d62;color:#fff}
-input,select{padding:8px;border:1px solid #888;border-radius:6px;margin:4px}button{padding:8px 12px;background:#0b3d62;color:#fff;border:0;border-radius:6px;cursor:pointer}
-#map{height:420px;border-radius:10px;border:1px solid #888}
-.timeline{display:flex;flex-wrap:wrap;gap:8px;margin:10px 0}.tstep{background:#fff;border-radius:10px;padding:10px;min-width:140px;flex:1;border-top:6px solid #ccc}
-.tstep.done{border-color:#2ecc71}.tstep.warn{border-color:#f39c12}.tstep.todo{border-color:#bdc3c7}
-.progress{background:#ddd;border-radius:20px;overflow:hidden;height:18px}.progress div{background:#1e90ff;height:100%;width:0}
-.riskbar{background:#ddd;border-radius:20px;height:22px;overflow:hidden}.riskbar div{height:100%;width:0;background:red}
-.badge{padding:3px 8px;border-radius:12px;font-size:11px;font-weight:bold}.low{background:#dff9e3;color:#1e7e34}.med{background:#fef9e7;color:#7d6608}.high{background:#fdebd0;color:#9c5c00}.crit{background:#fadbd8;color:#922b21}
-#alert-list li,#dash-alerts li{list-style:none;margin:6px 0;padding:8px;border-radius:8px;background:#fff8e1;border-left:5px solid #f39c12}
-#alert-list{padding:0}.bar{background:#e9ecef;border-radius:6px;margin:5px 0;overflow:hidden}.bar span{display:block;background:#0b3d62;color:#fff;padding:5px 8px;font-size:12px}
-.note{font-size:12px;color:#444;background:#fff;padding:8px;border-radius:8px}.gov-footer{background:#0b3d62;color:#fff;padding:14px;font-size:12px;text-align:center;margin-top:16px}.gov-footer a{color:#ffdf5d}
-@media(max-width:900px){.cards{grid-template-columns:1fr 1fr}.grid2,.dept-grid{grid-template-columns:1fr}}
+/* ── Base ──────────────────────────────────────────────────── */
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:"Segoe UI",Arial,sans-serif;background:#eef2f7;color:#1c2b3a;font-size:14px}
+a{color:#003580;text-decoration:none}a:hover{text-decoration:underline}
+
+/* ── Gov Strip ─────────────────────────────────────────────── */
+.gov-strip{background:#003580;color:#fff;font-size:11.5px;padding:5px 16px;display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap;border-bottom:2px solid #ffcc00}
+.gov-strip a{color:#ffdf5d;margin:0 4px}
+.skip-link{background:#ffdf5d;color:#003580;padding:2px 8px;border-radius:4px;font-weight:bold;font-size:11px}
+
+/* ── Tricolor ──────────────────────────────────────────────── */
+.tricolor{height:6px;background:linear-gradient(to right,#FF9933 33%,#FFFFFF 33% 66%,#138808 66%)}
+
+/* ── Emblem bar ────────────────────────────────────────────── */
+.gov-emblem-bar{background:#fff;display:flex;align-items:center;gap:16px;padding:10px 18px;border-bottom:3px solid #003580}
+.gov-emblem-bar .elog{font-size:38px;line-height:1;flex-shrink:0}
+.gov-emblem-bar .etxt h1{font-size:16px;color:#003580;font-weight:700;line-height:1.4}
+.gov-emblem-bar .etxt p{font-size:11.5px;color:#555;margin-top:2px}
+.gov-emblem-bar .eright{margin-left:auto;text-align:right;font-size:11px;color:#666}
+.gov-emblem-bar .eright strong{display:block;color:#003580;font-size:12px}
+
+/* ── Login ─────────────────────────────────────────────────── */
+.login-wrap{min-height:calc(100vh - 130px);display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg,#dde8f5,#f8fbff);padding:20px}
+.login-card{background:#fff;padding:28px 32px;border-radius:12px;width:500px;max-width:96vw;box-shadow:0 10px 40px rgba(0,0,0,.18);border-top:6px solid #003580}
+.login-card .lhead{text-align:center;margin-bottom:14px}
+.satya{font-size:30px;display:block;text-align:center;margin-bottom:4px}
+.login-card .lhead h2{color:#003580;font-size:20px;font-weight:700;margin:4px 0}
+.login-card .lhead .sub{font-size:12px;color:#555;line-height:1.5}
+.secure-line{background:#e8f5e9;border:1px solid #27ae60;padding:7px 10px;border-radius:6px;font-size:11.5px;margin:10px 0;color:#1a5e2a;font-weight:500}
+.login-card label{display:block;margin:10px 0 2px;font-size:13px;font-weight:600;color:#333}
+.login-card input,.login-card select{width:100%;padding:9px 11px;border:1px solid #aab;border-radius:7px;font-size:14px;background:#f9fbfd;margin-top:3px}
+.login-card input:focus,.login-card select:focus{outline:none;border-color:#003580;background:#fff}
+.captcha-row{display:flex;align-items:center;gap:10px;margin-top:4px}
+.captcha-box{background:#003580;color:#ffcc00;font-size:22px;font-family:monospace;letter-spacing:10px;padding:6px 16px;border-radius:6px;user-select:none;min-width:110px;text-align:center;text-decoration:line-through;text-decoration-style:wavy;text-decoration-color:#ff6600}
+.captcha-inp{flex:1;padding:9px!important;width:auto!important}
+.btn-login{width:100%;padding:12px;background:#003580;color:#fff;border:0;border-radius:8px;cursor:pointer;font-size:16px;font-weight:700;margin-top:14px;letter-spacing:.5px}
+.btn-login:hover{background:#002060}
+.demo-note{font-size:11px;background:#f4f6fb;padding:9px 11px;border-radius:8px;margin-top:10px;color:#444;border-left:3px solid #003580}
+.err{color:#b00020;font-size:13px;margin-top:6px;font-weight:600}
+.linked-portals{margin-top:12px;font-size:11.5px;color:#555;text-align:center}
+.linked-portals a{color:#003580;margin:0 5px;font-weight:600}
+
+/* ── App Header ────────────────────────────────────────────── */
+.gov-header{background:#fff;padding:10px 18px;display:flex;justify-content:space-between;align-items:center;border-bottom:3px solid #003580;gap:10px;flex-wrap:wrap}
+.header-left{display:flex;align-items:center;gap:12px}
+.header-left .hlogo{font-size:26px}
+.header-left .htitle{font-size:15px;font-weight:700;color:#003580;line-height:1.3}
+.header-left .hsubtitle{font-size:11px;color:#666}
+.header-right{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.live-badge{background:#155724;color:#fff;padding:4px 10px;border-radius:20px;font-size:11px;font-weight:700}
+#sess-timer{font-size:11px;color:#b00020;font-weight:700}
+#user-info{font-size:11px;color:#555;background:#f0f4fa;padding:4px 10px;border-radius:16px}
+.btn-logout{background:#003580;color:#fff;border:0;padding:7px 14px;border-radius:6px;cursor:pointer;font-size:13px}
+.btn-logout:hover{background:#b00020}
+
+/* ── Nav ───────────────────────────────────────────────────── */
+nav{background:#003580;padding:6px 14px;display:flex;gap:6px;flex-wrap:wrap;position:sticky;top:0;z-index:900}
+nav button{padding:7px 11px;border:1px solid rgba(255,255,255,.35);background:transparent;color:#fff;border-radius:6px;cursor:pointer;font-size:13px}
+nav button:hover,nav button.active{background:#ffcc00;color:#003580;border-color:#ffcc00;font-weight:700}
+
+/* ── Main ──────────────────────────────────────────────────── */
+main{padding:16px;max-width:1200px;margin:auto}
+.page-title{font-size:18px;font-weight:700;color:#003580;margin-bottom:4px}
+.note,.page-note{font-size:12px;color:#555;background:#fff;padding:8px 12px;border-radius:8px;margin:8px 0;border-left:4px solid #003580}
+
+/* ── Cards ─────────────────────────────────────────────────── */
+.cards{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin:12px 0}
+.card{background:#fff;padding:14px;border-radius:10px;text-align:center;box-shadow:0 2px 8px rgba(0,0,0,.09);border-top:5px solid #003580}
+.card h4{font-size:12px;color:#555;margin-bottom:6px;text-transform:uppercase;letter-spacing:.5px}
+.card p{font-size:26px;font-weight:700;color:#003580;margin:0}
+.card.green{border-top-color:#27ae60}.card.green p{color:#27ae60}
+.card.orange{border-top-color:#e67e22}.card.orange p{color:#e67e22}
+.card.red{border-top-color:#c0392b}.card.red p{color:#c0392b}
+
+/* ── Grid / Panel ──────────────────────────────────────────── */
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:10px 0}
+.panel{background:#fff;padding:14px;border-radius:10px;margin:10px 0;box-shadow:0 1px 6px rgba(0,0,0,.08)}
+.panel h3{color:#003580;font-size:15px;margin-bottom:8px;padding-bottom:6px;border-bottom:2px solid #eef2f7}
+
+/* ── Bar chart rows ────────────────────────────────────────── */
+.bar{background:#eef2f7;border-radius:6px;margin:5px 0;overflow:hidden}
+.bar span{display:block;background:#003580;color:#fff;padding:5px 10px;font-size:12px}
+
+/* ── Dept Status dots ──────────────────────────────────────── */
+.dept-status-item{display:flex;align-items:center;gap:8px;padding:6px 0;border-bottom:1px solid #eef2f7;font-size:12px}
+.dot-g{width:9px;height:9px;border-radius:50%;background:#27ae60;flex-shrink:0}
+
+/* ── Alerts ────────────────────────────────────────────────── */
+#alert-list,#dash-alerts{padding:0}
+#alert-list li,#dash-alerts li{list-style:none;margin:7px 0;padding:9px 12px;border-radius:8px;background:#fff8e1;border-left:5px solid #e67e22;font-size:13px}
+.sev-critical{background:#fdeaea!important;border-left-color:#c0392b!important}
+.sev-info{background:#e8f4fd!important;border-left-color:#2980b9!important}
+
+/* ── Table ─────────────────────────────────────────────────── */
+table{width:100%;border-collapse:collapse;background:#fff;border-radius:10px;overflow:hidden;margin:10px 0;box-shadow:0 1px 4px rgba(0,0,0,.07)}
+th,td{padding:9px 11px;border-bottom:1px solid #eef2f7;font-size:13px;text-align:left}
+th{background:#003580;color:#fff;font-size:12px;text-transform:uppercase;letter-spacing:.4px}
+tr:hover td{background:#f4f8ff}
+
+/* ── Inputs / buttons ──────────────────────────────────────── */
+button{padding:7px 13px;background:#003580;color:#fff;border:0;border-radius:6px;cursor:pointer;font-size:13px;transition:background .15s}
+button:hover{background:#002060}
+input,select{padding:8px 10px;border:1px solid #aab;border-radius:6px;margin:4px;font-size:13px;background:#f9fbfd}
+
+/* ── Progress / Risk ───────────────────────────────────────── */
+.progress{background:#dde;border-radius:20px;overflow:hidden;height:18px;margin:6px 0}
+.progress div{background:#1565c0;height:100%;transition:width .6s}
+.riskbar{background:#dde;border-radius:20px;height:24px;overflow:hidden;margin:8px 0}
+.riskbar div{height:100%;width:0;background:red;transition:width .6s}
+
+/* ── Badge ─────────────────────────────────────────────────── */
+.badge{padding:3px 9px;border-radius:12px;font-size:11px;font-weight:700}
+.low{background:#dff9e3;color:#1a5e2a}.med{background:#fef9e7;color:#7d6608}
+.high{background:#fdebd0;color:#9c5c00}.crit{background:#fadbd8;color:#922b21}
+
+/* ── Timeline ──────────────────────────────────────────────── */
+.timeline{display:flex;flex-wrap:wrap;gap:8px;margin:10px 0}
+.tstep{background:#fff;border-radius:10px;padding:10px;min-width:130px;flex:1;border-top:6px solid #ccc;box-shadow:0 1px 4px rgba(0,0,0,.07);font-size:13px}
+.tstep.done{border-color:#27ae60}.tstep.warn{border-color:#e67e22}.tstep.inprog{border-color:#1565c0}
+
+/* ── Dept Integration ──────────────────────────────────────── */
+.dept-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:12px 0}
+.dept-card{background:#fff;border:1px solid #c5d6e8;border-left:5px solid #003580;border-radius:10px;padding:14px;position:relative;box-shadow:0 2px 6px rgba(0,0,0,.08)}
+.dept-card h4{color:#003580;font-size:14px;margin-bottom:4px}
+.dept-card .api-ep{font-family:monospace;font-size:11px;background:#f0f4fa;padding:3px 7px;border-radius:4px;display:inline-block;margin:4px 0;color:#333}
+.dept-card .portal-link{font-size:12px;color:#003580;font-weight:700;display:block;margin:5px 0}
+.dept-card small{color:#666;font-size:12px}
+.dept-card .status-chip{position:absolute;top:10px;right:10px;font-size:10px;padding:2px 8px;border-radius:10px;background:#dff9e3;color:#1a5e2a;font-weight:700}
+.dept-fetch-out{background:#f9fbff;border:1px solid #c5d6e8;border-radius:10px;padding:14px;margin-top:4px;font-size:13px;min-height:60px}
+
+/* ── GIS Map ───────────────────────────────────────────────── */
+#map{height:450px;border-radius:10px;border:2px solid #c5d6e8;margin-top:8px}
+.parcel-panel{background:#fff;border-radius:10px;padding:14px;margin-top:10px;box-shadow:0 1px 4px rgba(0,0,0,.07);font-size:13px}
+
+/* ── Idle overlay ──────────────────────────────────────────── */
+#idle-overlay{display:none;position:fixed;inset:0;background:rgba(0,3,18,.88);z-index:9999;align-items:center;justify-content:center;flex-direction:column;color:#fff;font-size:16px;text-align:center;gap:10px}
+#idle-overlay.show{display:flex}
+#idle-overlay h2{font-size:26px;color:#ffcc00}
+#idle-overlay button{padding:12px 28px;font-size:16px;background:#ffcc00;color:#003580;border:0;border-radius:8px;cursor:pointer;font-weight:700;margin-top:8px}
+
+/* ── Footer ────────────────────────────────────────────────── */
+.gov-footer{background:#003580;color:#fff;padding:16px 20px;font-size:12px;margin-top:20px}
+.gov-footer .footer-links{display:flex;flex-wrap:wrap;justify-content:center;gap:4px;margin-bottom:8px;border-bottom:1px solid rgba(255,255,255,.2);padding-bottom:8px}
+.gov-footer a{color:#ffdf5d;margin:0 4px}
+.gov-footer .footer-bottom{text-align:center;font-size:11px;color:rgba(255,255,255,.7);margin-top:6px}
+
+/* ── Responsive ────────────────────────────────────────────── */
+@media(max-width:960px){.cards{grid-template-columns:1fr 1fr}.grid2{grid-template-columns:1fr}.dept-grid{grid-template-columns:1fr 1fr}}
+@media(max-width:600px){.cards{grid-template-columns:1fr 1fr}.dept-grid{grid-template-columns:1fr}}

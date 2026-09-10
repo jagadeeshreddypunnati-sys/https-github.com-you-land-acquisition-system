@@ -9,16 +9,18 @@
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 </head>
 <body>
-<div class="gov-strip"><span>भारत सरकार | Government of India</span><span>Ministry of Rural Development — Department of Land Resources (DoLR)</span><span class="gov-links"><a href="https://www.india.gov.in" target="_blank" rel="noopener">india.gov.in</a> • <a href="https://www.mygov.in" target="_blank" rel="noopener">MyGov</a> • <a href="https://digitallocker.gov.in" target="_blank" rel="noopener">DigiLocker</a> • <a href="#login-screen">Skip to main</a></span></div>
+<div class="gov-strip"><span>भारत सरकार | Government of India</span><span>Ministry of Rural Development — Department of Land Resources (DoLR)</span><span><a href="https://www.india.gov.in" target="_blank" rel="noopener">india.gov.in</a> • <a href="https://www.mygov.in" target="_blank" rel="noopener">MyGov</a> • <a href="https://digitallocker.gov.in" target="_blank" rel="noopener">DigiLocker</a> • <a href="#login-screen" class="skip-link">Skip to main</a></span></div>
 <div class="tricolor"></div>
 
 <!-- LOGIN -->
 <div id="login-screen" class="login-wrap">
-  <div class="login-card gov-card">
-    <div class="emblem">🇮🇳 सत्यमेव जयते</div>
-    <h1>National Land Acquisition System</h1>
-    <p class="sub">SIH 26016 • RFCTLARR Act, 2013 compliant • End-to-end digital monitoring: Proposal → Verification → Notification → SIA → Valuation → Award → Compensation (PFMS) → Possession → R&amp;R</p>
-    <div class="secure-line">🔒 Secured access • Role-based • Audit-logged • Owner data masked • Session auto-lock 15 min</div>
+  <div class="login-card">
+    <div class="lhead">
+      <span class="satya">🏛️ सत्यमेव जयते</span>
+      <h2>National Land Acquisition System</h2>
+      <p class="sub">SIH 26016 &nbsp;•&nbsp; RFCTLARR Act, 2013 compliant &nbsp;•&nbsp; End-to-end digital monitoring<br/>Proposal → Verification → Notification → SIA → Valuation → Award → Compensation (PFMS) → Possession → R&amp;R</p>
+    </div>
+    <div class="secure-line">🔒 Secured access &nbsp;•&nbsp; Role-based &nbsp;•&nbsp; Audit-logged &nbsp;•&nbsp; Owner data masked &nbsp;•&nbsp; Session auto-lock 15 min</div>
     <label>Official Email <input id="login-email" value="admin@gov.in" autocomplete="username" /></label>
     <label>Password <input id="login-pass" type="password" value="demo123" autocomplete="current-password" /></label>
     <label>Role
@@ -27,136 +29,238 @@
         <option>District Officer</option><option>Project Agency</option><option>Field Officer</option>
       </select>
     </label>
-    <label>Captcha: type <b id="captcha-q"></b> <input id="captcha-a" placeholder="Enter captcha" /></label>
-    <button onclick="login()">Secure Login</button>
-    <div class="demo"><b>Demo (password demo123):</b><br/>admin@gov.in • state@gov.in • district@gov.in • agency@gov.in • field@gov.in<br/>In production: NIC SSO / Parichay + MFA. This demo never shows owner names, Aadhaar, or bank details.</div>
+    <label>Captcha verification</label>
+    <div class="captcha-row">
+      <div class="captcha-box" id="captcha-q"></div>
+      <input id="captcha-a" class="captcha-inp" placeholder="Enter captcha digits" />
+    </div>
+    <button class="btn-login" onclick="login()">🔐 Secure Login</button>
+    <div class="demo-note"><b>Demo credentials (password: demo123):</b><br/>admin@gov.in • state@gov.in • district@gov.in • agency@gov.in • field@gov.in<br/><em>In production: NIC SSO / Parichay + MFA. This demo never displays owner names, Aadhaar, or bank details.</em></div>
     <p id="login-err" class="err"></p>
-    <p class="note">Linked portals: <a href="https://rural.nic.in" target="_blank" rel="noopener">rural.nic.in</a> • <a href="https://dolr.nic.in" target="_blank" rel="noopener">dolr.nic.in</a> • <a href="https://bhuvan.nrsc.gov.in" target="_blank" rel="noopener">Bhuvan GIS</a> • <a href="https://nhai.gov.in" target="_blank" rel="noopener">NHAI</a> • <a href="https://pfms.nic.in" target="_blank" rel="noopener">PFMS</a> • <a href="https://data.gov.in" target="_blank" rel="noopener">data.gov.in</a></p>
+    <div class="linked-portals">Connected portals: <a href="https://rural.nic.in" target="_blank" rel="noopener">rural.nic.in</a> • <a href="https://dolr.nic.in" target="_blank" rel="noopener">dolr.nic.in</a> • <a href="https://bhuvan.nrsc.gov.in" target="_blank" rel="noopener">Bhuvan GIS</a> • <a href="https://nhai.gov.in" target="_blank" rel="noopener">NHAI</a> • <a href="https://pfms.nic.in" target="_blank" rel="noopener">PFMS</a> • <a href="https://data.gov.in" target="_blank" rel="noopener">data.gov.in</a></div>
   </div>
+</div>
+
+<!-- IDLE LOCK OVERLAY -->
+<div id="idle-overlay">
+  <h2>🔒 Session Locked</h2>
+  <p>Your session was locked after 15 minutes of inactivity (security policy).</p>
+  <p id="idle-user-msg"></p>
+  <button onclick="unlockSession()">Unlock Session</button>
+  <button onclick="logout()" style="background:#b00020;margin-left:10px">Logout</button>
 </div>
 
 <!-- APP -->
 <div id="app" style="display:none">
-<header class="gov-header">
-  <div><div class="emblem-sm">🇮🇳 Dept. of Land Resources</div><h2>National Land Acquisition & Management System</h2><small id="user-info"></small> <small id="sess-timer"></small></div>
-  <div><span class="live">● SECURE • LIVE</span> <button onclick="logout()">Logout</button></div>
-</header>
-<nav>
-  <button onclick="showPage('dashboard')">📊 Dashboard</button>
-  <button onclick="showPage('projects')">📁 Projects</button>
-  <button onclick="showPage('detail')">🧾 Project Details</button>
-  <button onclick="showPage('map')">🗺️ GIS Map</button>
-  <button onclick="showPage('dept')">🏛️ Dept Integration</button>
-  <button onclick="showPage('docs')">📄 Documents</button>
-  <button onclick="showPage('ai')">🤖 AI Risk</button>
-  <button onclick="showPage('alerts')">🔔 Alerts <span id="nav-alert-count"></span></button>
-  <button onclick="showPage('analytics')">📈 Analytics</button>
-  <button onclick="showPage('audit')">📜 Audit</button>
-</nav>
-<main>
-  <section id="page-dashboard" class="page">
-    <h2>Real-Time National Dashboard — One view for Centre, State, District</h2>
-    <p class="note">As per RFCTLARR Act, 2013: SIA → consent → valuation → award → compensation → R&amp;R → possession. Compensation disbursal via PFMS/DBT in production.</p>
-    <div class="cards">
-      <div class="card"><h4>Total Projects</h4><p>128</p></div>
-      <div class="card"><h4>Land Proposed</h4><p>52,430 Acre</p></div>
-      <div class="card"><h4>Land Acquired</h4><p>31,820 Acre</p></div>
-      <div class="card"><h4>Compensation (PFMS)</h4><p>₹842 Cr</p></div>
-    </div>
-    <div class="cards">
-      <div class="card green"><h4>Completed</h4><p>42</p></div>
-      <div class="card green"><h4>On Track</h4><p>51</p></div>
-      <div class="card orange"><h4>Delayed</h4><p>25</p></div>
-      <div class="card red"><h4>Critical</h4><p>10</p></div>
-    </div>
-    <div class="grid2">
-      <div class="panel"><h3>Connected departments (live status)</h3><div id="dept-status"></div><button onclick="showPage('dept')">Open Department Integration →</button></div>
-      <div class="panel"><h3>Latest critical alerts</h3><ul id="dash-alerts"></ul><button onclick="showPage('detail')">▶ Open Demo Project LA-2026-001</button></div>
-    </div>
-    <div class="panel"><h3>State-wise projects</h3><div id="state-wise"></div></div>
-  </section>
 
-  <section id="page-projects" class="page" style="display:none">
-    <h2>Projects <button onclick="openCreate()">+ New Proposal (Agency)</button></h2>
-    <input id="proj-search" placeholder="Search id / name / state..." oninput="renderProjects()" />
-    <table><thead><tr><th>ID</th><th>Name</th><th>State</th><th>Progress</th><th>Risk</th><th>Stage</th><th></th></tr></thead>
-    <tbody id="proj-rows"></tbody></table>
-    <div id="create-box" style="display:none" class="panel">
-      <h3>Submit Acquisition Proposal (u/s 4–8, RFCTLARR Act)</h3>
-      <input id="np-name" placeholder="Project name" /><input id="np-state" placeholder="State" value="Karnataka" />
-      <input id="np-dist" placeholder="District" value="Kolar" /><input id="np-land" type="number" value="500" />
-      <button onclick="createProject()">Create Project</button>
-    </div>
-  </section>
-
-  <section id="page-detail" class="page" style="display:none">
-    <h2 id="d-title"></h2><p id="d-meta"></p>
-    <div class="progress"><div id="d-bar"></div></div><p id="d-prog"></p>
-    <h3>Acquisition Lifecycle (statutory)</h3><div id="timeline" class="timeline"></div>
-    <div class="panel"><h3>Update milestone (role-gated + audit-logged)</h3>
-      <select id="upd-stage"></select>
-      <select id="upd-status"><option>Completed</option><option>In Progress</option><option>Pending</option></select>
-      <button onclick="updateMilestone()">Update Status</button><br/><small id="role-hint"></small>
-    </div>
-  </section>
-
-  <section id="page-map" class="page" style="display:none">
-    <h2>GIS Parcels — Kolar (Bhuvan-compatible layer, demo coords)</h2>
-    <p>🟢 Acquired 🟡 Under Process 🔴 Pending | Owner / Aadhaar / account always masked. Production overlays Bhuvan cadastral + Survey of India maps.</p>
-    <div id="map"></div><div id="parcel-info" class="panel">Click a parcel.</div>
-  </section>
-
-  <section id="page-dept" class="page" style="display:none">
-    <h2>🏛️ Department Integration — Revenue & allied records</h2>
-    <p class="note">Prototype simulates API fetch. Production uses NIC APIs with e-Sign, consent, and audit. Owner PII stays masked for all roles in this demo.</p>
-    <div class="dept-grid" id="dept-grid"></div>
-    <div class="panel"><h3>Fetch result</h3><div id="dept-out">No fetch yet. Click “Fetch (simulated API)”.</div></div>
-  </section>
-
-  <section id="page-docs" class="page" style="display:none">
-    <h2>Document Repository (version + audit, DigiLocker-ready)</h2>
-    <table><thead><tr><th>Name</th><th>Version</th><th>By</th><th>Date</th><th>Status</th><th></th></tr></thead>
-    <tbody id="doc-rows"></tbody></table>
-    <div class="panel"><h3>Upload (validated: PDF only, ≤10 MB simulated)</h3>
-      <input id="nd-name" placeholder="e.g. Compensation_Report_v3.pdf" /><button onclick="uploadDoc()">Upload</button>
-    </div>
-  </section>
-
-  <section id="page-ai" class="page" style="display:none">
-    <h2>AI Delay Prediction — Decision Support</h2>
-    <div class="grid2">
-      <div class="panel">
-        <label>Pending approvals <input id="ai-appr" type="number" value="3" min="0" max="5" /></label>
-        <label>Pending compensation <input id="ai-comp" type="number" value="42" min="0" max="100" /></label>
-        <label>Litigation <input id="ai-lit" type="number" value="12" min="0" max="20" /></label>
-        <label>R&amp;R pending % <input id="ai-rr" type="number" value="70" min="0" max="100" /></label>
-        <label>Days overdue <input id="ai-over" type="number" value="18" min="0" max="60" /></label>
-        <button onclick="runAI()">Calculate Risk</button>
-        <button onclick="demoFix()">Demo: Compensation done → Re-run</button>
-      </div>
-      <div class="panel"><h3>Delay Risk</h3><div class="riskbar"><div id="risk-fill"></div></div>
-        <p id="risk-label"></p><p id="risk-reason"></p><p id="risk-action"></p>
-      </div>
-    </div>
-  </section>
-
-  <section id="page-alerts" class="page" style="display:none"><h2>Automated Alerts (SMS/e-mail in production via NIC)</h2><ul id="alert-list"></ul></section>
-  <section id="page-analytics" class="page" style="display:none"><h2>Analytics</h2><h4>Delay by stage</h4><div id="ch-stage"></div><h4>Risk distribution</h4><div id="ch-risk"></div></section>
-  <section id="page-audit" class="page" style="display:none">
-    <h2>Security Audit Trail (who did what, when)</h2>
-    <table><thead><tr><th>Time</th><th>User</th><th>Action</th></tr></thead><tbody id="audit-rows"></tbody></table>
-    <h3>APIs (NIC-ready)</h3><code>POST /login • GET /projects • POST /projects • GET /projects/:id • GET /projects/:id/parcels • GET /projects/:id/documents • GET /alerts • GET /analytics</code>
-    <p class="note">Security: HTTPS-only, hashed passwords, MFA via Parichay in production, 15-min idle lock, PII masking, input validation, audit of every write.</p>
-  </section>
-</main>
-<footer class="gov-footer">
-  <div>Content owned by Dept. of Land Resources, Ministry of Rural Development, Govt. of India • Prototype for SIH 26016 • Data simulated; production connects via secure NIC APIs.</div>
-  <div class="gov-links">
-    <a href="https://rural.nic.in" target="_blank" rel="noopener">MoRD</a> • <a href="https://dolr.nic.in" target="_blank" rel="noopener">DoLR</a> • <a href="https://bhuvan.nrsc.gov.in" target="_blank" rel="noopener">Bhuvan</a> • <a href="https://nhai.gov.in" target="_blank" rel="noopener">NHAI</a> • <a href="https://pfms.nic.in" target="_blank" rel="noopener">PFMS</a> • <a href="https://data.gov.in" target="_blank" rel="noopener">data.gov.in</a> • <a href="https://www.india.gov.in" target="_blank" rel="noopener">india.gov.in</a>
+<!-- NIC-style emblem header -->
+<div class="gov-emblem-bar">
+  <div class="elog">🏛️</div>
+  <div class="etxt">
+    <h1>National Land Acquisition &amp; Management System (NLAMS)</h1>
+    <p>Department of Land Resources (DoLR) &nbsp;|&nbsp; Ministry of Rural Development &nbsp;|&nbsp; भारत सरकार &nbsp;|&nbsp; RFCTLARR Act, 2013 &nbsp;|&nbsp; SIH 26016</p>
   </div>
-  <div><small>Last updated: 10-Sep-2026 • For demo only — no real landowner data stored.</small></div>
-</footer>
+  <div class="eright">
+    <strong>🟢 LIVE (Demo)</strong>
+    NIC-hosted prototype<br/>NIC &amp; MoRD, New Delhi
+  </div>
 </div>
+
+<header class="gov-header">
+  <div class="header-left">
+    <div>
+      <div class="htitle">🇮🇳 Dept. of Land Resources — MoRD, Govt. of India</div>
+      <div class="hsubtitle" id="user-info"></div>
+    </div>
+  </div>
+  <div class="header-right">
+    <span class="live-badge">● SECURE • LIVE</span>
+    <span id="sess-timer"></span>
+    <button class="btn-logout" onclick="logout()">Logout</button>
+  </div>
+</header>
+
+<nav>
+  <button onclick="showPage('dashboard')" id="nav-dashboard">📊 Dashboard</button>
+  <button onclick="showPage('projects')" id="nav-projects">📁 Projects</button>
+  <button onclick="showPage('detail')" id="nav-detail">🧾 Project Details</button>
+  <button onclick="showPage('map')" id="nav-map">🗺️ GIS Map</button>
+  <button onclick="showPage('dept')" id="nav-dept">🏛️ Dept Integration</button>
+  <button onclick="showPage('docs')" id="nav-docs">📄 Documents</button>
+  <button onclick="showPage('ai')" id="nav-ai">🤖 AI Risk</button>
+  <button onclick="showPage('alerts')" id="nav-alerts">🔔 Alerts <span id="nav-alert-count"></span></button>
+  <button onclick="showPage('analytics')" id="nav-analytics">📈 Analytics</button>
+  <button onclick="showPage('audit')" id="nav-audit">📜 Audit Trail</button>
+</nav>
+
+<main>
+
+<!-- ── DASHBOARD ─────────────────────────────────────────── -->
+<section id="page-dashboard" class="page">
+  <p class="page-title">📊 Real-Time National Dashboard — One view for Centre, State, District</p>
+  <p class="note">As per RFCTLARR Act, 2013: SIA → 80% consent → valuation → award → compensation via PFMS/DBT → R&amp;R → possession. All milestones audit-logged.</p>
+  <div class="cards">
+    <div class="card"><h4>Total Projects</h4><p>128</p></div>
+    <div class="card"><h4>Land Proposed</h4><p>52,430 Ac</p></div>
+    <div class="card"><h4>Land Acquired</h4><p>31,820 Ac</p></div>
+    <div class="card"><h4>Compensation (PFMS)</h4><p>₹842 Cr</p></div>
+  </div>
+  <div class="cards">
+    <div class="card green"><h4>Completed</h4><p>42</p></div>
+    <div class="card green"><h4>On Track</h4><p>51</p></div>
+    <div class="card orange"><h4>Delayed</h4><p>25</p></div>
+    <div class="card red"><h4>Critical</h4><p>10</p></div>
+  </div>
+  <div class="grid2">
+    <div class="panel">
+      <h3>🏛️ Connected departments — live API status</h3>
+      <div id="dept-status"></div>
+      <button onclick="showPage('dept')" style="margin-top:8px">Open Department Integration →</button>
+    </div>
+    <div class="panel">
+      <h3>🚨 Latest critical alerts</h3>
+      <ul id="dash-alerts"></ul>
+      <button onclick="showPage('detail')" style="margin-top:8px">▶ Open Demo Project LA-2026-001</button>
+    </div>
+  </div>
+  <div class="panel"><h3>📌 State-wise project distribution</h3><div id="state-wise"></div></div>
+</section>
+
+<!-- ── PROJECTS ───────────────────────────────────────────── -->
+<section id="page-projects" class="page" style="display:none">
+  <p class="page-title">📁 Projects <button onclick="openCreate()" style="font-size:13px;margin-left:10px">+ New Proposal (Agency)</button></p>
+  <input id="proj-search" placeholder="Search by ID / name / state..." oninput="renderProjects()" style="width:320px;margin:8px 0" />
+  <table><thead><tr><th>ID</th><th>Project Name</th><th>State</th><th>Progress</th><th>Risk Score</th><th>Current Stage</th><th></th></tr></thead>
+  <tbody id="proj-rows"></tbody></table>
+  <div id="create-box" style="display:none" class="panel">
+    <h3>Submit Acquisition Proposal (u/s 4–8, RFCTLARR Act, 2013)</h3>
+    <input id="np-name" placeholder="Project name" style="width:280px" /><input id="np-state" placeholder="State" value="Karnataka" style="width:160px" />
+    <input id="np-dist" placeholder="District" value="Kolar" style="width:160px" /><input id="np-land" type="number" value="500" style="width:100px" placeholder="Land (acres)" />
+    <button onclick="createProject()" style="margin-left:6px">Submit Proposal</button>
+  </div>
+</section>
+
+<!-- ── PROJECT DETAIL ─────────────────────────────────────── -->
+<section id="page-detail" class="page" style="display:none">
+  <p class="page-title" id="d-title"></p><p class="note" id="d-meta"></p>
+  <div class="progress"><div id="d-bar"></div></div><p id="d-prog" style="font-size:12px;color:#555;margin-top:4px"></p>
+  <h3 style="color:#003580;margin-top:14px">📋 Acquisition Lifecycle — Statutory milestones (RFCTLARR Act, 2013)</h3>
+  <div id="timeline" class="timeline"></div>
+  <div class="panel">
+    <h3>✏️ Update milestone (role-gated + audit-logged)</h3>
+    <select id="upd-stage"></select>
+    <select id="upd-status"><option>Completed</option><option>In Progress</option><option>Pending</option></select>
+    <button onclick="updateMilestone()">Update Status</button><br/>
+    <small id="role-hint" style="color:#555;display:block;margin-top:6px"></small>
+  </div>
+</section>
+
+<!-- ── GIS MAP ─────────────────────────────────────────────── -->
+<section id="page-map" class="page" style="display:none">
+  <p class="page-title">🗺️ GIS Parcels — Kolar District, Karnataka (Bhuvan-compatible layer, demo coords)</p>
+  <p class="note">🟢 Acquired &nbsp; 🟡 Under Process &nbsp; 🔴 Pending &nbsp;|&nbsp; Owner name / Aadhaar / bank account always <b>****</b> masked for all roles. Production overlays Bhuvan cadastral + Survey of India toposheet.</p>
+  <div id="map"></div>
+  <div class="parcel-panel" id="parcel-info">Click a parcel on the map to view details.</div>
+</section>
+
+<!-- ── DEPT INTEGRATION ───────────────────────────────────── -->
+<section id="page-dept" class="page" style="display:none">
+  <p class="page-title">🏛️ Department Integration — Revenue &amp; Allied Records</p>
+  <p class="note">Prototype simulates secure API fetch via NIC. Production uses NIC APIs with e-Sign, consent-verification, and full audit. All owner PII masked for all roles in this demo per data-privacy policy.</p>
+  <div class="dept-grid" id="dept-grid"></div>
+  <div class="panel">
+    <h3>📥 Fetch Result</h3>
+    <div class="dept-fetch-out" id="dept-out">No fetch yet. Click <b>"Fetch (simulated API)"</b> on any department card above.</div>
+  </div>
+</section>
+
+<!-- ── DOCUMENTS ──────────────────────────────────────────── -->
+<section id="page-docs" class="page" style="display:none">
+  <p class="page-title">📄 Document Repository (version-controlled, DigiLocker-ready)</p>
+  <table><thead><tr><th>Document Name</th><th>Version</th><th>Uploaded By</th><th>Date</th><th>Status</th><th></th></tr></thead>
+  <tbody id="doc-rows"></tbody></table>
+  <div class="panel">
+    <h3>⬆️ Upload Document (PDF only, ≤10 MB — validated)</h3>
+    <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-top:6px">
+      <input id="nd-name" placeholder="e.g. Compensation_Report_v3.pdf" style="width:300px" />
+      <button onclick="uploadDoc()">Upload</button>
+    </div>
+    <small style="color:#888">Only .pdf files accepted. Filename sanitized. Every upload audit-logged.</small>
+  </div>
+</section>
+
+<!-- ── AI RISK ─────────────────────────────────────────────── -->
+<section id="page-ai" class="page" style="display:none">
+  <p class="page-title">🤖 AI Delay Prediction — Decision Support (Rule-based model, weighted scoring)</p>
+  <div class="grid2">
+    <div class="panel">
+      <h3>Input Parameters</h3>
+      <label>Pending approvals (0–5) <input id="ai-appr" type="number" value="3" min="0" max="5" /></label>
+      <label>Pending compensation cases <input id="ai-comp" type="number" value="42" min="0" max="100" /></label>
+      <label>Litigation count <input id="ai-lit" type="number" value="12" min="0" max="20" /></label>
+      <label>R&amp;R pending % <input id="ai-rr" type="number" value="70" min="0" max="100" /></label>
+      <label>Days overdue <input id="ai-over" type="number" value="18" min="0" max="60" /></label>
+      <button onclick="runAI()" style="margin-top:8px">Calculate Risk</button>
+      <button onclick="demoFix()" style="margin-left:6px;background:#1a7a2e">Demo: Compensation done → Re-run</button>
+    </div>
+    <div class="panel">
+      <h3>Delay Risk Score</h3>
+      <div class="riskbar"><div id="risk-fill"></div></div>
+      <p id="risk-label" style="margin-top:8px;font-size:16px"></p>
+      <p id="risk-reason" style="font-size:13px;color:#555;margin-top:4px"></p>
+      <p id="risk-action" style="font-size:13px;font-weight:600;color:#003580;margin-top:4px"></p>
+    </div>
+  </div>
+</section>
+
+<!-- ── ALERTS ──────────────────────────────────────────────── -->
+<section id="page-alerts" class="page" style="display:none">
+  <p class="page-title">🔔 Automated Alerts (SMS / e-mail dispatch via NIC in production)</p>
+  <p class="note">Critical alerts trigger escalation to State/District Officer. Resolved alerts are retained in Audit Trail.</p>
+  <ul id="alert-list"></ul>
+</section>
+
+<!-- ── ANALYTICS ──────────────────────────────────────────── -->
+<section id="page-analytics" class="page" style="display:none">
+  <p class="page-title">📈 Analytics — National overview</p>
+  <div class="panel"><h3>Projects by current stage</h3><div id="ch-stage"></div></div>
+  <div class="panel"><h3>Risk distribution across projects</h3><div id="ch-risk"></div></div>
+</section>
+
+<!-- ── AUDIT TRAIL ─────────────────────────────────────────── -->
+<section id="page-audit" class="page" style="display:none">
+  <p class="page-title">📜 Security Audit Trail — Who did what, when</p>
+  <p class="note">Every login, write, dept-fetch, doc-upload, and alert resolution is recorded here. Non-repudiation ready for RTI / judicial review.</p>
+  <table><thead><tr><th>Timestamp</th><th>User</th><th>Action</th></tr></thead><tbody id="audit-rows"></tbody></table>
+  <div class="panel">
+    <h3>🔌 NIC API Endpoints (production-ready contracts)</h3>
+    <code style="font-size:12px">POST /auth/login &nbsp;•&nbsp; GET /projects &nbsp;•&nbsp; POST /projects &nbsp;•&nbsp; GET /projects/:id &nbsp;•&nbsp; GET /projects/:id/parcels &nbsp;•&nbsp; GET /projects/:id/documents &nbsp;•&nbsp; POST /milestones/:id &nbsp;•&nbsp; GET /alerts &nbsp;•&nbsp; GET /analytics &nbsp;•&nbsp; GET /audit</code>
+    <p class="note" style="margin-top:8px">Production security: HTTPS-only (NIC PKI), bcrypt passwords, MFA via Parichay SSO, 15-min idle lock, PII masking enforced server-side, input validation, XSS/CSRF protection, audit of every write.</p>
+  </div>
+</section>
+
+</main>
+
+<!-- NIC-style footer -->
+<footer class="gov-footer">
+  <div class="footer-links">
+    <a href="https://rural.nic.in" target="_blank" rel="noopener">MoRD</a> •
+    <a href="https://dolr.nic.in" target="_blank" rel="noopener">DoLR</a> •
+    <a href="https://bhuvan.nrsc.gov.in" target="_blank" rel="noopener">Bhuvan GIS</a> •
+    <a href="https://nhai.gov.in" target="_blank" rel="noopener">NHAI</a> •
+    <a href="https://pfms.nic.in" target="_blank" rel="noopener">PFMS / DBT</a> •
+    <a href="https://data.gov.in" target="_blank" rel="noopener">data.gov.in</a> •
+    <a href="https://www.india.gov.in" target="_blank" rel="noopener">india.gov.in</a> •
+    <a href="https://digitallocker.gov.in" target="_blank" rel="noopener">DigiLocker</a> •
+    <a href="https://www.mygov.in" target="_blank" rel="noopener">MyGov</a>
+  </div>
+  <div class="footer-bottom">
+    Content owned by Dept. of Land Resources, Ministry of Rural Development, Govt. of India &nbsp;•&nbsp; Prototype for SIH 26016 &nbsp;•&nbsp; Last updated: <span id="footer-date"></span><br/>
+    ⚠️ <em>Data simulated for demonstration only — no real landowner name, Aadhaar, or bank detail is stored or displayed.</em> &nbsp;•&nbsp; Designed &amp; Developed by NIC (prototype)
+  </div>
+</footer>
+
+</div><!-- /app -->
 <script src="app.js"></script>
 </body>
 </html>
