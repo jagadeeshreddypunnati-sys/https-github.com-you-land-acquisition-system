@@ -32,6 +32,523 @@ const HISTORICAL_DATA = [
   { year: "2025-26", occupied: 52430.0, working: 31820.0, budget_alloc: 1040.0, budget_spent: 965.8, families: 22100, milestones: 85, summary: "Substantial physical possession completed; R&R housing rehabilitation colonies handed over in Kolar & Jaipur." },
   { year: "2026-27", occupied: 61200.0, working: 38500.0, budget_alloc: 1250.0, budget_spent: 842.0, families: 26400, milestones: 102, summary: "Current FY active execution; 10 critical national corridors under construction with real-time GIS tracking." }
 ];
+// ── DETAILED HISTORICAL CORRIDOR PROJECT RECORDS (FY 2021-22 to FY 2026-27) ──
+const HISTORICAL_PROJECT_RECORDS = [
+  // FY 2021-22
+  { id: "REC-2021-NHAI-01", fy: "2021-22", name: "Delhi-Mumbai Expressway (Pkg 1-3)", state: "Haryana & Rajasthan", district: "Gurugram/Alwar", agency: "NHAI", occupied: 4800.0, working: 3200.0, alloc: 145.0, spent: 140.2, families: 1420, status: "Completed & Operational", docId: "GAZETTE-2026-SO-4412" },
+  { id: "REC-2021-EDFC-02", fy: "2021-22", name: "Eastern Dedicated Freight Corridor (EDFC)", state: "Uttar Pradesh", district: "Prayagraj", agency: "DFCCIL", occupied: 5600.0, working: 3150.0, alloc: 160.0, spent: 152.5, families: 1650, status: "Completed & Operational", docId: "CAG-AUDIT-2021-2027" },
+  { id: "REC-2021-MAHSR-03", fy: "2021-22", name: "Mumbai-Ahmedabad High-Speed Rail (Pkg C1)", state: "Gujarat", district: "Surat/Navsari", agency: "NHSRCL", occupied: 3800.5, working: 2100.0, alloc: 105.0, spent: 92.5, families: 1050, status: "Completed & Operational", docId: "SIA-REPORT-2026-04" },
+
+  // FY 2022-23
+  { id: "REC-2022-NHAI-04", fy: "2022-23", name: "Bengaluru-Chennai Expressway (Phase-1)", state: "Karnataka", district: "Kolar", agency: "NHAI", occupied: 6400.0, working: 4500.0, alloc: 180.0, spent: 172.0, families: 2100, status: "Completed & Operational", docId: "GAZETTE-2026-SO-4412" },
+  { id: "REC-2022-WDFC-05", fy: "2022-23", name: "Western DFC (Rewari-Madar Section)", state: "Rajasthan", district: "Jaipur/Ajmer", agency: "DFCCIL", occupied: 8200.0, working: 5400.4, alloc: 210.0, spent: 198.7, families: 2750, status: "Completed & Operational", docId: "CAG-AUDIT-2021-2027" },
+  { id: "REC-2022-AMR-06", fy: "2022-23", name: "Amritsar-Jamnagar Economic Corridor", state: "Punjab & Rajasthan", district: "Bathinda/Bikaner", agency: "NHAI", occupied: 8200.0, working: 5300.0, alloc: 190.0, spent: 172.0, families: 2500, status: "Completed & Operational", docId: "AWARD-VAL-2026-892" },
+
+  // FY 2023-24
+  { id: "REC-2023-NHAI-07", fy: "2023-24", name: "Raipur-Visakhapatnam Economic Corridor", state: "Odisha & AP", district: "Koraput/Vizag", agency: "NHAI", occupied: 9200.8, working: 6800.0, alloc: 220.0, spent: 214.5, families: 3400, status: "Completed & Operational", docId: "BHUVAN-JVS-2026-091" },
+  { id: "REC-2023-GHY-08", fy: "2023-24", name: "Northeast Frontier Highway Paving", state: "Assam", district: "Kamrup/Nagaon", agency: "MoRTH", occupied: 7800.0, working: 5100.2, alloc: 180.0, spent: 168.0, families: 2800, status: "Completed & Operational", docId: "RR-SCHEME-2026-04" },
+  { id: "REC-2023-BND-09", fy: "2023-24", name: "Bundelkhand Expressway Link", state: "Uttar Pradesh", district: "Banda/Chitrakoot", agency: "UPEIDA", occupied: 14500.0, working: 9200.0, alloc: 320.0, spent: 306.0, families: 5200, status: "Completed & Operational", docId: "GAZETTE-2026-SO-4412" },
+
+  // FY 2024-25
+  { id: "REC-2024-NHAI-10", fy: "2024-25", name: "Delhi-Amritsar-Katra Expressway", state: "Punjab & J&K", district: "Ludhiana/Kathua", agency: "NHAI", occupied: 12400.0, working: 8100.0, alloc: 270.0, spent: 255.1, families: 4900, status: "Completed & Operational", docId: "AWARD-VAL-2026-892" },
+  { id: "REC-2024-SUR-11", fy: "2024-25", name: "Surat-Chennai Economic Corridor (Pkg 4-6)", state: "Maharashtra & KA", district: "Solapur/Kalaburagi", agency: "NHAI", occupied: 15200.0, working: 9800.0, alloc: 330.0, spent: 304.0, families: 6100, status: "Completed & Operational", docId: "CAG-AUDIT-2021-2027" },
+  { id: "REC-2024-VAR-12", fy: "2024-25", name: "Varanasi-Ranchi-Kolkata Expressway", state: "Jharkhand & WB", district: "Bokaro/Purulia", agency: "NHAI", occupied: 14500.0, working: 8500.0, alloc: 290.0, spent: 265.0, families: 5800, status: "Completed & Operational", docId: "SIA-REPORT-2026-04" },
+
+  // FY 2025-26
+  { id: "REC-2025-BLR-13", fy: "2025-26", name: "Bengaluru Satellite Town Ring Road (STRR)", state: "Karnataka", district: "Bengaluru Rural", agency: "NHAI", occupied: 16800.0, working: 10400.0, alloc: 340.0, spent: 318.8, families: 7200, status: "Substantially Completed", docId: "BHUVAN-JVS-2026-091" },
+  { id: "REC-2025-KOL-14", fy: "2025-26", name: "Kolkata-Siliguri Highway (NH-12)", state: "West Bengal", district: "Malda/Murshidabad", agency: "NHAI", occupied: 18200.0, working: 11220.0, alloc: 360.0, spent: 335.0, families: 7900, status: "Substantially Completed", docId: "RR-SCHEME-2026-04" },
+  { id: "REC-2025-HYD-15", fy: "2025-26", name: "Hyderabad Regional Ring Road (Northern Arc)", state: "Telangana", district: "Medak/Siddipet", agency: "NHAI", occupied: 17430.0, working: 10200.0, alloc: 340.0, spent: 312.0, families: 7000, status: "Substantially Completed", docId: "GAZETTE-2026-SO-4412" },
+
+  // FY 2026-27 (Current Active FY)
+  { id: "REC-2026-KOL-16", fy: "2026-27", name: "Bengaluru–Chennai Highway Expansion (Pkg 2)", state: "Karnataka", district: "Kolar", agency: "NHAI", occupied: 18400.0, working: 11800.0, alloc: 380.0, spent: 265.0, families: 8100, status: "Active Construction (Paving)", docId: "GAZETTE-2026-SO-4412" },
+  { id: "REC-2026-JPR-17", fy: "2026-27", name: "NH-48 Spur Alignment Jaipur", state: "Rajasthan", district: "Jaipur", agency: "NHAI", occupied: 20500.0, working: 12900.0, alloc: 420.0, spent: 285.0, families: 8900, status: "Active Construction (Earthwork)", docId: "AWARD-VAL-2026-892" },
+  { id: "REC-2026-HYD-18", fy: "2026-27", name: "NH-65 Multi-Modal Corridor Hyderabad", state: "Telangana", district: "Rangareddy", agency: "NHAI", occupied: 22300.0, working: 13800.0, alloc: 450.0, spent: 292.0, families: 9400, status: "Active Construction (Subgrade)", docId: "CAG-AUDIT-2021-2027" }
+];
+
+// ── OFFICIAL STATUTORY DEMO DOCUMENTS REPOSITORY ────────────────
+const DEMO_DOCUMENTS = {
+  "GAZETTE-2026-SO-4412": {
+    id: "GAZETTE-2026-SO-4412",
+    shortName: "Gazette Sec 11(1)",
+    title: "The Gazette of India: Extraordinary (Part II - Sec 3(ii)) — S.O. 4412(E)",
+    category: "Statutory Gazette Notification",
+    authority: "Ministry of Rural Development (DoLR), New Delhi",
+    date: "10th July 2026",
+    refNo: "DL-(N)04/0007/2003-26 / S.O. 4412(E)",
+    html: `
+      <div class="gazette-watermark">भारत सरकार &bull; OFFICIAL RECORD</div>
+      <div class="gazette-header-block">
+        <div style="font-size:32px;margin-bottom:4px">🇮🇳</div>
+        <div class="gazette-title-hindi">भारत का राजपत्र : असाधारण</div>
+        <div class="gazette-title-eng">The Gazette of India : Extraordinary</div>
+        <div class="gazette-sub">भाग II — खण्ड 3 — उप-खण्ड (ii) | PART II — Section 3 — Sub-section (ii)</div>
+        <div class="gazette-sub" style="margin-top:2px">प्राधिकार से प्रकाशित | PUBLISHED BY AUTHORITY</div>
+      </div>
+
+      <div class="gazette-meta-row">
+        <span>सं. 2481] नई दिल्ली, शुक्रवार, जुलाई 10, 2026 / आषाढ़ 19, 1948</span>
+        <span>[No. 2481] NEW DELHI, FRIDAY, JULY 10, 2026 / ASHADHA 19, 1948</span>
+      </div>
+
+      <div class="gazette-order-title">
+        MINISTRY OF RURAL DEVELOPMENT<br/>
+        (Department of Land Resources)<br/>
+        <strong>NOTIFICATION UNDER SECTION 11(1) OF THE RFCTLARR ACT, 2013</strong>
+      </div>
+
+      <p class="gazette-clause">
+        <strong>S.O. 4412(E).</strong>—Whereas it appears to the Appropriate Government (Central Government) that land is required in the District of <strong>Kolar</strong> in the State of <strong>Karnataka</strong> for a public purpose, namely for the construction and expansion of the <strong>Bengaluru–Chennai Economic Corridor (NH-75/NH-4 Link)</strong> under the National Highways Authority of India (NHAI).
+      </p>
+
+      <p class="gazette-clause">
+        And whereas a Social Impact Assessment study was conducted by the independent State SIA Unit under Section 4 of the Right to Fair Compensation and Transparency in Land Acquisition, Rehabilitation and Resettlement Act, 2013 (30 of 2013), and the Expert Committee under Section 7 recommended the execution of the said project;
+      </p>
+
+      <p class="gazette-clause">
+        Now, therefore, in exercise of the powers conferred by sub-section (1) of section 11 of the said Act, the Central Government hereby notifies that the parcels of land described in the Schedule hereto annexed, measuring <strong>500.00 Acres</strong> approximately, are required for the said public purpose:
+      </p>
+
+      <div style="margin:16px 0;font-weight:bold;font-size:13px;text-align:center">
+        SCHEDULE OF ACQUIRED LAND PARCELS (TALUK: MALUR &amp; TEKAL)
+      </div>
+
+      <table class="gazette-table">
+        <thead>
+          <tr>
+            <th>Parcel ID</th>
+            <th>Bhu-Aadhaar (ULPIN)</th>
+            <th>Village</th>
+            <th>Survey No.</th>
+            <th>RTC No.</th>
+            <th>Extent (Acres)</th>
+            <th>Classification</th>
+            <th>Nature of Use</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>KA-00121</td><td>ULPIN-KA-29-0121</td><td>Malur</td><td>Sy 112/3</td><td>RTC-44/21</td><td>2.40</td><td>Dry Agricultural</td><td>Corridor Main Carriage</td></tr>
+          <tr><td>KA-00122</td><td>ULPIN-KA-29-0122</td><td>Malur</td><td>Sy 114/1</td><td>RTC-44/22</td><td>3.10</td><td>Garden / Plantation</td><td>Embankment &amp; Drain</td></tr>
+          <tr><td>KA-00123</td><td>ULPIN-KA-29-0123</td><td>Malur</td><td>Sy 115/2</td><td>RTC-44/23</td><td>2.40</td><td>Dry Agricultural</td><td>Service Road Alignment</td></tr>
+          <tr><td>KA-00124</td><td>ULPIN-KA-29-0124</td><td>Tekal</td><td>Sy 88/5</td><td>RTC-45/04</td><td>1.80</td><td>Wet / Irrigated</td><td>Major Culvert Foundation</td></tr>
+          <tr><td>KA-00125</td><td>ULPIN-KA-29-0125</td><td>Tekal</td><td>Sy 91/2</td><td>RTC-45/09</td><td>4.00</td><td>Semi-Urban Dry</td><td>Interchange Ramp</td></tr>
+          <tr><td>KA-00126</td><td>ULPIN-KA-29-0126</td><td>Huralagere</td><td>Sy 60/4</td><td>RTC-46/11</td><td>2.00</td><td>Dry Agricultural</td><td>Subgrade Earthwork</td></tr>
+          <tr><td>KA-00127</td><td>ULPIN-KA-29-0127</td><td>Huralagere</td><td>Sy 63/1</td><td>RTC-46/14</td><td>2.90</td><td>Dry Agricultural</td><td>Utility Corridor &amp; Duct</td></tr>
+          <tr><td>KA-00128</td><td>ULPIN-KA-29-0128</td><td>Kasaba</td><td>Sy 20/7</td><td>RTC-47/02</td><td>3.50</td><td>Barren / Pasture</td><td>Toll Plaza Approaches</td></tr>
+        </tbody>
+      </table>
+
+      <p class="gazette-clause">
+        Any person interested in any land within the notified area may, within <strong>sixty days</strong> from the date of publication of this notification, submit objections in writing to the District Collector and Competent Authority (Land Acquisition), Kolar, under Section 15(1) of the said Act.
+      </p>
+
+      <div class="gazette-digital-sig">
+        <div style="font-size:28px;color:#16a34a">✔️</div>
+        <div>
+          <div style="font-weight:700;color:#166534;font-size:13px">DIGITALLY SIGNED STATUTORY RECORD</div>
+          <div style="font-size:12px;color:#1e293b"><strong>Shri A. K. Sharma, IAS</strong>, Joint Secretary to the Government of India</div>
+          <div style="font-size:11px;color:#64748b">Ministry of Rural Development, Krishi Bhawan, New Delhi &bull; Timestamp: 2026-07-10T11:45:00+05:30</div>
+          <div style="font-size:10.5px;color:#0369a1;font-family:monospace">SHA-256: e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855</div>
+        </div>
+      </div>
+    `
+  },
+
+  "SIA-REPORT-2026-04": {
+    id: "SIA-REPORT-2026-04",
+    shortName: "SIA Study Sec 4",
+    title: "Comprehensive Social Impact Assessment (SIA) Final Study Report — Section 4 & 7",
+    category: "Social Impact Assessment",
+    authority: "State Administrative Training Institute (ATI) & Independent SIA Unit",
+    date: "2nd August 2026",
+    refNo: "SIA-KLR-2026/04/TISS",
+    html: `
+      <div class="gazette-watermark">भारत सरकार &bull; SIA CERTIFIED</div>
+      <div class="gazette-header-block">
+        <div style="font-size:32px;margin-bottom:4px">🏛️</div>
+        <div class="gazette-title-eng" style="font-size:16px">STATE INDEPENDENT SOCIAL IMPACT ASSESSMENT UNIT</div>
+        <div class="gazette-sub">Administrative Training Institute, Government of Karnataka</div>
+        <div class="gazette-sub" style="margin-top:4px">Constituted under Section 4(1) of RFCTLARR Act, 2013</div>
+      </div>
+
+      <div class="gazette-meta-row">
+        <span>Report Ref: SIA-KLR-2026/04/FINAL</span>
+        <span>Submission Date: 02 August 2026</span>
+        <span>Project: Bengaluru–Chennai Expressway (LA-2026-001)</span>
+      </div>
+
+      <div class="gazette-order-title">
+        SOCIAL IMPACT ASSESSMENT STUDY &amp; SOCIAL IMPACT MANAGEMENT PLAN (SIMP)<br/>
+        <span style="font-size:12px;font-weight:normal;text-decoration:none">Evaluation of 148 Project Affected Families across Malur, Tekal, and Huralagere</span>
+      </div>
+
+      <p class="gazette-clause">
+        <strong>1. Executive Summary &amp; Public Purpose:</strong> The proposed acquisition of 500.00 Acres across 8 revenue villages in Kolar District has been assessed through multi-disciplinary field surveys, household demographic profiling, and Gram Sabha consultations. The project serves a certified National Infrastructure Public Purpose under Section 2(1)(b) of the Act.
+      </p>
+
+      <p class="gazette-clause">
+        <strong>2. Public Hearing Minutes (Gram Sabha Malur):</strong> Public hearing was organized on 22nd June 2026 at Malur Taluk Panchayat Hall, presided over by the SIA Chairperson. Out of 148 landholding families, 134 participated. Primary concerns regarding market value updates, borewell compensation, and cattle pathway underpasses were incorporated into the revised engineering design.
+      </p>
+
+      <table class="gazette-table">
+        <thead>
+          <tr>
+            <th>Key Metric</th>
+            <th>Survey Findings</th>
+            <th>Mitigation Measure Recommended</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>Total Affected Families (PAFs)</td><td>148 Families (712 Persons)</td><td>Full R&amp;R entitlement under Second Schedule</td></tr>
+          <tr><td>Livelihood Disruption</td><td>42 Agricultural Tenant Labourers</td><td>One-time subsistence grant of Rs. 36,000 + skill training</td></tr>
+          <tr><td>Residential Structures Displaced</td><td>18 Rural Dwellings</td><td>200 sq. yard plot allotment at Tekal Resettlement Colony</td></tr>
+          <tr><td>Irrigation Borewells Severed</td><td>14 Functional Borewells</td><td>Depreciation-free replacement valuation awarded</td></tr>
+          <tr><td>Overall Public Benefit Ratio</td><td>1:4.8 Economic Multiplier</td><td>Recommended for clearance by Expert Group</td></tr>
+        </tbody>
+      </table>
+
+      <p class="gazette-clause">
+        <strong>3. Recommendation of Independent Expert Group (Section 7):</strong> Having scrutinized the SIA study, the Expert Group certifies that the project footprint has been minimized to bare technical requirements, no tribal or vulnerable forest-dweller hamlets are affected, and the Social Impact Management Plan adequately safeguards affected families.
+      </p>
+
+      <div class="gazette-digital-sig">
+        <div style="font-size:28px;color:#16a34a">✔️</div>
+        <div>
+          <div style="font-weight:700;color:#166534;font-size:13px">CERTIFIED BY INDEPENDENT EXPERT COMMITTEE</div>
+          <div style="font-size:12px;color:#1e293b"><strong>Prof. Dr. Meenakshi Sundaram</strong>, Chairperson, State SIA Unit</div>
+          <div style="font-size:11px;color:#64748b">Verified &amp; countersigned by District Collector, Kolar &bull; Timestamp: 2026-08-02T16:20:10+05:30</div>
+          <div style="font-size:10.5px;color:#0369a1;font-family:monospace">SHA-256: a1b2c3d4e5f67890123456789abcdef0123456789abcdef0123456789abcdef0</div>
+        </div>
+      </div>
+    `
+  },
+
+  "AWARD-VAL-2026-892": {
+    id: "AWARD-VAL-2026-892",
+    shortName: "Valuation Award Sec 26",
+    title: "Competent Authority Land Valuation & Compensation Award Order — Sections 26–30",
+    category: "Statutory Valuation Award",
+    authority: "Office of the District Collector & Competent Authority (Land Acquisition), Kolar",
+    date: "20th August 2026",
+    refNo: "DC/KLR/LA-2026/AW-892",
+    html: `
+      <div class="gazette-watermark">भारत सरकार &bull; AWARD DECREE</div>
+      <div class="gazette-header-block">
+        <div style="font-size:32px;margin-bottom:4px">⚖️</div>
+        <div class="gazette-title-eng" style="font-size:16px">GOVERNMENT OF KARNATAKA &bull; REVENUE DEPARTMENT</div>
+        <div class="gazette-title-hindi" style="font-size:18px">कार्यालय जिला समाहर्ता एवं सक्षम प्राधिकारी (भूमि अर्जन), कोलार</div>
+        <div class="gazette-sub">PROCEEDINGS OF THE DISTRICT COLLECTOR &amp; COMPETENT AUTHORITY (LA)</div>
+      </div>
+
+      <div class="gazette-meta-row">
+        <span>Award Order No: DC/KLR/LA-2026/AW-892</span>
+        <span>Award Date: 20 August 2026</span>
+        <span>Total Sanction: Rs. 42.00 Crores</span>
+      </div>
+
+      <div class="gazette-order-title">
+        STATUTORY COMPENSATION AWARD UNDER SECTION 23 &amp; SECTIONS 26 TO 30<br/>
+        <span style="font-size:12px;font-weight:normal;text-decoration:none">Bengaluru–Chennai Highway Project (Kolar Section — 500 Acres)</span>
+      </div>
+
+      <p class="gazette-clause">
+        In accordance with Section 26(1) of the RFCTLARR Act, 2013, the base market value of the land has been determined taking the higher of registered sale deeds within the preceding 3 years from Kaveri-IGRS and the prevailing State Guidance Value.
+      </p>
+
+      <div style="margin:16px 0;font-weight:bold;font-size:13px;text-align:center">
+        COMPREHENSIVE STATUTORY COMPENSATION DETERMINATION SCHEDULE
+      </div>
+
+      <table class="gazette-table">
+        <thead>
+          <tr>
+            <th>Statutory Factor</th>
+            <th>Statutory Clause</th>
+            <th>Rate / Computation</th>
+            <th>Net Extent</th>
+            <th>Total Amount (Rs.)</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>1. Base Market Value</strong></td>
+            <td>Section 26(1)</td>
+            <td>Rs. 35,00,000 / Acre (IGRS Guidance Value)</td>
+            <td>500.00 Acres</td>
+            <td>Rs. 17,50,00,000</td>
+          </tr>
+          <tr>
+            <td><strong>2. Rural Multiplier Factor</strong></td>
+            <td>First Schedule (Item 2)</td>
+            <td>Factor of 2.0x for Rural Radial Distance &gt; 15 Km</td>
+            <td>500.00 Acres</td>
+            <td>Rs. 17,50,00,000 (Added)</td>
+          </tr>
+          <tr>
+            <td><strong>3. Sub-total Market Value</strong></td>
+            <td>Section 26 &amp; 27</td>
+            <td>Rs. 70,00,000 / Acre</td>
+            <td>500.00 Acres</td>
+            <td>Rs. 35,00,00,000</td>
+          </tr>
+          <tr>
+            <td><strong>4. Value of Attached Assets</strong></td>
+            <td>Section 29</td>
+            <td>Horticulture trees, wells, boundary walls valuation</td>
+            <td>Various</td>
+            <td>Rs. 2,50,00,000</td>
+          </tr>
+          <tr>
+            <td><strong>5. 100% Solatium</strong></td>
+            <td>Section 30(1)</td>
+            <td>100% of Total Market Value (Item 3 + Item 4)</td>
+            <td>Mandatory</td>
+            <td>Rs. 37,50,00,000</td>
+          </tr>
+          <tr>
+            <td><strong>6. Additional Interest (12%)</strong></td>
+            <td>Section 30(3)</td>
+            <td>12% p.a. from Sec 11 notification to award date</td>
+            <td>41 Days</td>
+            <td>Rs. 47,26,000</td>
+          </tr>
+          <tr style="background:#f0fdf4;font-weight:bold">
+            <td colspan="4">TOTAL SANCTIONED PFMS COMPENSATION DISBURSAL</td>
+            <td style="color:#166534;font-size:14px">Rs. 42,00,00,000</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <p class="gazette-clause">
+        All payments shall be processed exclusively via <strong>Direct Benefit Transfer (DBT)</strong> through the Public Financial Management System (PFMS) gateway directly to the Aadhaar-authenticated bank accounts of eligible tenure-holders.
+      </p>
+
+      <div class="gazette-digital-sig">
+        <div style="font-size:28px;color:#16a34a">✔️</div>
+        <div>
+          <div style="font-weight:700;color:#166534;font-size:13px">AWARD CONFIRMED &amp; SIGNED BY COMPETENT AUTHORITY</div>
+          <div style="font-size:12px;color:#1e293b"><strong>Smt. R. V. Pavithra, IAS</strong>, Deputy Commissioner &amp; District Collector, Kolar</div>
+          <div style="font-size:11px;color:#64748b">Competent Authority (Land Acquisition) &bull; Timestamp: 2026-08-20T14:10:45+05:30</div>
+          <div style="font-size:10.5px;color:#0369a1;font-family:monospace">SHA-256: 9876543210abcdef0123456789abcdef0123456789abcdef0123456789abcdef</div>
+        </div>
+      </div>
+    `
+  },
+
+  "BHUVAN-JVS-2026-091": {
+    id: "BHUVAN-JVS-2026-091",
+    shortName: "Bhuvan Cadastral Survey",
+    title: "Bhuvan-ISRO & Survey of India Joint Cadastral Drone Verification & ULPIN Schedule",
+    category: "Cadastral Survey Certificate",
+    authority: "National Remote Sensing Centre (NRSC / ISRO) & Survey Settlement Wing",
+    date: "15th June 2026",
+    refNo: "NRSC-BHOOMI-2026-JVS-091",
+    html: `
+      <div class="gazette-watermark">ISRO &bull; BHUVAN GEOSPATIAL</div>
+      <div class="gazette-header-block">
+        <div style="font-size:32px;margin-bottom:4px">🛰️</div>
+        <div class="gazette-title-eng" style="font-size:16px">NATIONAL REMOTE SENSING CENTRE (NRSC / ISRO)</div>
+        <div class="gazette-sub">Bhuvan Cadastral Geoportal &bull; Department of Space, Government of India</div>
+        <div class="gazette-sub" style="margin-top:2px">Joint Drone DGPS Ground Verification Certificate</div>
+      </div>
+
+      <div class="gazette-meta-row">
+        <span>Survey Ref: NRSC-BHOOMI-2026-JVS-091</span>
+        <span>Resolution: &lt; 5 cm Orthomosaic</span>
+        <span>Coordinate System: WGS 84 / UTM Zone 43N</span>
+      </div>
+
+      <div class="gazette-order-title">
+        JOINT VERIFICATION SURVEY (JVS) &amp; BHU-AADHAAR (ULPIN) SYNCHRONIZATION<br/>
+        <span style="font-size:12px;font-weight:normal;text-decoration:none">Corridor Chainage Km 12.400 to Km 23.450 (Kolar Alignment)</span>
+      </div>
+
+      <p class="gazette-clause">
+        This is to certify that high-resolution UAV (Drone) photogrammetric survey and dual-frequency Differential GPS (DGPS) ground control network establishment were conducted jointly by NRSC (ISRO), Survey of India, and Karnataka Revenue Survey Department.
+      </p>
+
+      <table class="gazette-table">
+        <thead>
+          <tr>
+            <th>Parcel ID</th>
+            <th>ULPIN (14-Digit)</th>
+            <th>Geo-Coordinates (Lat, Long)</th>
+            <th>Ground Area</th>
+            <th>Working Land Area</th>
+            <th>Current Construction Activity</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>KA-00121</td><td>ULPIN-KA-29-0121</td><td>13.140° N, 78.125° E</td><td>2.40 Ac</td><td>2.40 Ac</td><td>Paving &amp; Asphalting (85% Completed)</td></tr>
+          <tr><td>KA-00122</td><td>ULPIN-KA-29-0122</td><td>13.142° N, 78.130° E</td><td>3.10 Ac</td><td>3.10 Ac</td><td>Earthwork &amp; Embankment (70% Completed)</td></tr>
+          <tr><td>KA-00123</td><td>ULPIN-KA-29-0123</td><td>13.135° N, 78.132° E</td><td>2.40 Ac</td><td>0.00 Ac</td><td>Pre-construction Demarcation (15% Done)</td></tr>
+          <tr><td>KA-00124</td><td>ULPIN-KA-29-0124</td><td>13.130° N, 78.128° E</td><td>1.80 Ac</td><td>1.20 Ac</td><td>Bridge Culvert Foundations (45% Done)</td></tr>
+          <tr><td>KA-00125</td><td>ULPIN-KA-29-0125</td><td>13.128° N, 78.135° E</td><td>4.00 Ac</td><td>0.00 Ac</td><td>Pending Land Possession (5% Done)</td></tr>
+          <tr><td>KA-00126</td><td>ULPIN-KA-29-0126</td><td>13.145° N, 78.138° E</td><td>2.00 Ac</td><td>2.00 Ac</td><td>Subgrade Compaction (92% Completed)</td></tr>
+          <tr><td>KA-00127</td><td>ULPIN-KA-29-0127</td><td>13.125° N, 78.122° E</td><td>2.90 Ac</td><td>1.50 Ac</td><td>Utility Relocation &amp; Drains (55% Done)</td></tr>
+          <tr><td>KA-00128</td><td>ULPIN-KA-29-0128</td><td>13.138° N, 78.120° E</td><td>3.50 Ac</td><td>0.00 Ac</td><td>Boundary Marker Trenching (10% Done)</td></tr>
+        </tbody>
+      </table>
+
+      <div class="gazette-digital-sig">
+        <div style="font-size:28px;color:#16a34a">✔️</div>
+        <div>
+          <div style="font-weight:700;color:#166534;font-size:13px">DIGITALLY VERIFIED BY ISRO-BHUVAN GEOPORTAL</div>
+          <div style="font-size:12px;color:#1e293b"><strong>Dr. Suresh N.</strong>, Scientist-SG &amp; Head, Bhuvan Geospatial Services, NRSC</div>
+          <div style="font-size:11px;color:#64748b">Hyderabad &bull; Integrated with State Bhoomi RTC &bull; Timestamp: 2026-06-15T18:05:00+05:30</div>
+          <div style="font-size:10.5px;color:#0369a1;font-family:monospace">SHA-256: f0e1d2c3b4a5968778695a4b3c2d1e0ff0e1d2c3b4a5968778695a4b3c2d1e0f</div>
+        </div>
+      </div>
+    `
+  },
+
+  "RR-SCHEME-2026-04": {
+    id: "RR-SCHEME-2026-04",
+    shortName: "R&R Scheme Sec 31",
+    title: "Rehabilitation & Resettlement (R&R) Scheme Statutory Sanction Order — Section 31",
+    category: "Rehabilitation Order",
+    authority: "Office of the Commissioner for Rehabilitation & Resettlement, MoRD",
+    date: "5th September 2026",
+    refNo: "DoLR/RR/SCH-2026/04",
+    html: `
+      <div class="gazette-watermark">भारत सरकार &bull; R&amp;R SANCTION</div>
+      <div class="gazette-header-block">
+        <div style="font-size:32px;margin-bottom:4px">🏡</div>
+        <div class="gazette-title-hindi" style="font-size:18px">पुनर्वासन और पुनर्स्थापन आयुक्त का कार्यालय</div>
+        <div class="gazette-title-eng" style="font-size:16px">OFFICE OF THE COMMISSIONER FOR REHABILITATION &amp; RESETTLEMENT</div>
+        <div class="gazette-sub">Ministry of Rural Development &bull; Government of India</div>
+      </div>
+
+      <div class="gazette-meta-row">
+        <span>Sanction Order: DoLR/RR/SCH-2026/04</span>
+        <span>Sanction Date: 05 September 2026</span>
+        <span>Eligible PAFs: 148 Families</span>
+      </div>
+
+      <div class="gazette-order-title">
+        STATUTORY REHABILITATION &amp; RESETTLEMENT SCHEME SANCTION<br/>
+        <span style="font-size:12px;font-weight:normal;text-decoration:none">Second Schedule Compliance under RFCTLARR Act, 2013</span>
+      </div>
+
+      <p class="gazette-clause">
+        In exercise of the powers conferred by Section 31(1) of the Act, the Rehabilitation and Resettlement Scheme prepared by the Administrator (R&amp;R) and approved by the State Government is hereby formally sanctioned for execution:
+      </p>
+
+      <table class="gazette-table">
+        <thead>
+          <tr>
+            <th>Entitlement Category</th>
+            <th>Second Schedule Reference</th>
+            <th>Sanctioned Benefit Per Displaced Family</th>
+            <th>Total Budget Allocation</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>Housing Plot Allotment</td><td>Second Schedule, Item 1</td><td>200 Sq. Yards developed residential plot at Tekal Model Colony</td><td>Rs. 4.20 Crores</td></tr>
+          <tr><td>Subsistence Allowance</td><td>Second Schedule, Item 5</td><td>Rs. 3,000 per month for 12 months (Total: Rs. 36,000 per family)</td><td>Rs. 53.28 Lakhs</td></tr>
+          <tr><td>Transportation Grant</td><td>Second Schedule, Item 6</td><td>Rs. 50,000 one-time shifting allowance per family</td><td>Rs. 74.00 Lakhs</td></tr>
+          <tr><td>Artisan &amp; Trader Grant</td><td>Second Schedule, Item 7</td><td>Rs. 25,000 one-time financial grant for petty kiosk / trade reconstruction</td><td>Rs. 18.50 Lakhs</td></tr>
+          <tr><td>Skill Development Vouchers</td><td>Second Schedule, Item 4</td><td>Free NSDC accredited certification for 1 youth per affected family</td><td>Rs. 29.60 Lakhs</td></tr>
+          <tr><td>Resettlement Infrastructure</td><td>Third Schedule</td><td>Paved roads, piped drinking water, electricity, primary health center</td><td>Rs. 3.40 Crores</td></tr>
+        </tbody>
+      </table>
+
+      <div class="gazette-digital-sig">
+        <div style="font-size:28px;color:#16a34a">✔️</div>
+        <div>
+          <div style="font-weight:700;color:#166534;font-size:13px">APPROVED BY R&amp;R COMMISSIONER</div>
+          <div style="font-size:12px;color:#1e293b"><strong>Shri Arvind K. Saxena</strong>, Additional Secretary &amp; Commissioner for R&amp;R</div>
+          <div style="font-size:11px;color:#64748b">Ministry of Rural Development, New Delhi &bull; Timestamp: 2026-09-05T12:30:15+05:30</div>
+          <div style="font-size:10.5px;color:#0369a1;font-family:monospace">SHA-256: 55aa66bb77cc88dd99ee00ff11aa22bb33cc44dd55ee66ff77aa88bb99cc00dd</div>
+        </div>
+      </div>
+    `
+  },
+
+  "CAG-AUDIT-2021-2027": {
+    id: "CAG-AUDIT-2021-2027",
+    shortName: "CAG Multi-Year Audit",
+    title: "Comptroller & Auditor General (CAG) Multi-Year Statutory Compliance Audit Scroll",
+    category: "Statutory Audit Certificate",
+    authority: "Office of the Comptroller & Auditor General of India, New Delhi",
+    date: "8th September 2026",
+    refNo: "CAG-DoLR-AR-2027-08",
+    html: `
+      <div class="gazette-watermark">भारत के नियंत्रक-महालेखापरीक्षक &bull; CAG AUDITED</div>
+      <div class="gazette-header-block">
+        <div style="font-size:32px;margin-bottom:4px">🇮🇳</div>
+        <div class="gazette-title-hindi" style="font-size:18px">भारत के नियंत्रक-महालेखापरीक्षक का कार्यालय</div>
+        <div class="gazette-title-eng" style="font-size:16px">OFFICE OF THE COMPTROLLER AND AUDITOR GENERAL OF INDIA</div>
+        <div class="gazette-sub">10, Bahadur Shah Zafar Marg, New Delhi — 110002</div>
+        <div class="gazette-sub" style="margin-top:2px">SPECIAL STATUTORY AUDIT &bull; PFMS LAND COMPENSATION DISBURSALS (2021–2027)</div>
+      </div>
+
+      <div class="gazette-meta-row">
+        <span>Audit Scroll: CAG/DoLR-PFMS/2026-27/VOL-IV</span>
+        <span>Reconciliation Status: 100% BALANCED</span>
+        <span>Total Disbursed: Rs. 4,248.50 Crores</span>
+      </div>
+
+      <div class="gazette-order-title">
+        MULTI-YEAR PERFORMANCE &amp; FINANCIAL COMPLIANCE AUDIT CERTIFICATE<br/>
+        <span style="font-size:12px;font-weight:normal;text-decoration:none">Statutory Verification from FY 2021–22 through FY 2026–27</span>
+      </div>
+
+      <p class="gazette-clause">
+        The Directorate of Audit, Central Expenditure, has conducted a comprehensive financial audit and performance review of statutory land acquisitions executed under the RFCTLARR Act, 2013 across <strong>102 National Highway and Dedicated Freight Corridors</strong> for the six consecutive financial years from 2021–22 to 2026–27.
+      </p>
+
+      <table class="gazette-table">
+        <thead>
+          <tr>
+            <th>Financial Year</th>
+            <th>Occupied Land (Ac)</th>
+            <th>Active Working Land (Ac)</th>
+            <th>Budget Sanctioned</th>
+            <th>PFMS Disbursed</th>
+            <th>PAFs Compensated</th>
+            <th>Audit Opinion</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>FY 2021–22</td><td>14,200.5</td><td>8,450.0</td><td>Rs. 410.0 Cr</td><td>Rs. 385.2 Cr (94.0%)</td><td>4,120</td><td><span style="color:#166534;font-weight:bold">Unqualified (Clean)</span></td></tr>
+          <tr><td>FY 2022–23</td><td>22,800.0</td><td>15,200.4</td><td>Rs. 580.0 Cr</td><td>Rs. 542.7 Cr (93.6%)</td><td>7,350</td><td><span style="color:#166534;font-weight:bold">Unqualified (Clean)</span></td></tr>
+          <tr><td>FY 2023–24</td><td>31,500.8</td><td>21,100.2</td><td>Rs. 720.0 Cr</td><td>Rs. 688.5 Cr (95.6%)</td><td>11,400</td><td><span style="color:#166534;font-weight:bold">Unqualified (Clean)</span></td></tr>
+          <tr><td>FY 2024–25</td><td>42,100.0</td><td>26,400.0</td><td>Rs. 890.0 Cr</td><td>Rs. 824.1 Cr (92.6%)</td><td>16,800</td><td><span style="color:#166534;font-weight:bold">Unqualified (Clean)</span></td></tr>
+          <tr><td>FY 2025–26</td><td>52,430.0</td><td>31,820.0</td><td>Rs. 1,040.0 Cr</td><td>Rs. 965.8 Cr (92.9%)</td><td>22,100</td><td><span style="color:#166534;font-weight:bold">Unqualified (Clean)</span></td></tr>
+          <tr><td>FY 2026–27 (YTD)</td><td>61,200.0</td><td>38,500.0</td><td>Rs. 1,250.0 Cr</td><td>Rs. 842.0 Cr (67.4%)</td><td>26,400</td><td><span style="color:#0284c7;font-weight:bold">In-Progress (Valid)</span></td></tr>
+          <tr style="background:#f8fafc;font-weight:bold">
+            <td>6-YEAR CUMULATIVE</td>
+            <td>61,200.0 Ac</td>
+            <td>38,500.0 Ac</td>
+            <td>Rs. 4,890.0 Cr</td>
+            <td>Rs. 4,248.5 Cr (86.9%)</td>
+            <td>26,400 PAFs</td>
+            <td style="color:#166534">ZERO LEAKAGE</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <p class="gazette-clause">
+        <strong>Audit Certificate Conclusion:</strong> The audit certifies that electronic transfers executed via PFMS directly into bank accounts of verified landholders have eliminated middleman leakages and ghost accounts. The spatial extent of occupied land (61,200 Acres) and active construction working land (38,500 Acres) accurately reconciles with Bhuvan-ISRO GIS cadastral records.
+      </p>
+
+      <div class="gazette-digital-sig">
+        <div style="font-size:28px;color:#16a34a">✔️</div>
+        <div>
+          <div style="font-weight:700;color:#166534;font-size:13px">CERTIFIED BY PRINCIPAL DIRECTOR OF AUDIT (CENTRAL)</div>
+          <div style="font-size:12px;color:#1e293b"><strong>Shri P. Venugopal, IA&amp;AS</strong>, Principal Director of Audit, New Delhi</div>
+          <div style="font-size:11px;color:#64748b">Office of the Comptroller &amp; Auditor General of India &bull; Timestamp: 2026-09-08T17:00:00+05:30</div>
+          <div style="font-size:10.5px;color:#0369a1;font-family:monospace">SHA-256: 1234567890abcdef1234567890abcdef1234567890abcdef1234567890abcdef</div>
+        </div>
+      </div>
+    `
+  }
+};
+
+let activeDocKey = "GAZETTE-2026-SO-4412";
+let archivesCurrentFY = "ALL";
+let archivesCurrentSearch = "";
+
 
 let DB = JSON.parse(localStorage.getItem("nlas_db") || "null") || {
   projects: [
@@ -204,8 +721,7 @@ const PAGE_TITLES = {
   alerts: "Statutory Alerts",
   analytics: "National Analytics",
   audit: "Cyber Audit Trail",
-  archives: "Multi-Year Historical Records (2021–2027)",
-  backend: "Python & SQL Backend Gateway"
+  archives: "Multi-Year Historical Records (2021–2027)"
 };
 
 function showPage(n){
@@ -223,7 +739,6 @@ function showPage(n){
   if (n === "analytics") renderAnalytics();
   if (n === "dept") renderDepts();
   if (n === "archives") renderArchives();
-  if (n === "backend") renderBackendPage();
 }
 
 // ── PUBLIC VIEW FOR MULTI-YEAR ARCHIVES (Can be seen by all before login) ──
@@ -616,34 +1131,108 @@ function closeSearchModal(){
 }
 
 // ── MULTI-YEAR HISTORICAL ARCHIVES (Previous Years 2021–2027) ──
+// ── MULTI-YEAR HISTORICAL ARCHIVES (Previous Years 2021–2027) ──
+function filterArchives(fy, btn){
+  archivesCurrentFY = fy;
+  document.querySelectorAll("#fy-filters .fy-filter-btn").forEach(b => b.classList.remove("active"));
+  if (btn) btn.classList.add("active");
+  renderArchives();
+}
+
+function searchArchives(query){
+  archivesCurrentSearch = (query || "").toLowerCase().trim();
+  renderArchives();
+}
+
 function renderArchives(){
-  const tableBody = document.getElementById("archives-rows");
+  const projectTableBody = document.getElementById("archives-project-rows");
+  const annualTableBody = document.getElementById("archives-rows");
   const chartEl = document.getElementById("archives-charts");
-  if (!tableBody) return;
+  const countBadge = document.getElementById("archives-corridor-count");
 
-  const records = DB.historical_records || HISTORICAL_DATA;
+  // Filter corridor projects
+  let filteredProjects = HISTORICAL_PROJECT_RECORDS;
+  if (archivesCurrentFY !== "ALL") {
+    filteredProjects = filteredProjects.filter(p => p.fy === archivesCurrentFY);
+  }
+  if (archivesCurrentSearch) {
+    filteredProjects = filteredProjects.filter(p =>
+      p.id.toLowerCase().includes(archivesCurrentSearch) ||
+      p.name.toLowerCase().includes(archivesCurrentSearch) ||
+      p.state.toLowerCase().includes(archivesCurrentSearch) ||
+      p.district.toLowerCase().includes(archivesCurrentSearch) ||
+      p.agency.toLowerCase().includes(archivesCurrentSearch)
+    );
+  }
 
-  tableBody.innerHTML = records.map(r => `
-    <tr>
-      <td><strong style="color:#1a3d6d;font-size:13.5px">${esc(r.year)}</strong></td>
-      <td><b style="color:#16a34a">${Number(r.occupied).toLocaleString("en-IN")}</b> Acres</td>
-      <td><b style="color:#ea580c">${Number(r.working).toLocaleString("en-IN")}</b> Acres</td>
-      <td>₹${Number(r.budget_alloc).toLocaleString("en-IN")} Cr</td>
-      <td><b>₹${Number(r.budget_spent).toLocaleString("en-IN")} Cr</b> <small style="color:#16a34a">(${Math.round(r.budget_spent/r.budget_alloc*100)}%)</small></td>
-      <td>${Number(r.families).toLocaleString("en-IN")}</td>
-      <td>${r.milestones} Corridors</td>
-      <td style="font-size:11.5px;color:#475569">${esc(r.summary)}</td>
-    </tr>
-  `).join("");
+  if (countBadge) {
+    countBadge.textContent = `Showing ${filteredProjects.length} of ${HISTORICAL_PROJECT_RECORDS.length} Corridor Records`;
+  }
 
+  // Render Detailed Project Records Table
+  if (projectTableBody) {
+    if (filteredProjects.length === 0) {
+      projectTableBody.innerHTML = `<tr><td colspan="12" style="text-align:center;padding:18px;color:#64748b">No historical records match your filter criteria.</td></tr>`;
+    } else {
+      projectTableBody.innerHTML = filteredProjects.map(p => {
+        const isCurrent = p.fy === "2026-27";
+        const statusClass = isCurrent ? "med" : "low";
+        return `
+          <tr>
+            <td><code style="font-weight:700;color:#0369a1">${esc(p.id)}</code></td>
+            <td><strong style="color:#1a3d6d">${esc(p.fy)}</strong></td>
+            <td><strong>${esc(p.name)}</strong></td>
+            <td>${esc(p.state)} <small style="color:#64748b">(${esc(p.district)})</small></td>
+            <td><span class="badge" style="background:#e2e8f0;color:#1e293b">${esc(p.agency)}</span></td>
+            <td><b style="color:#16a34a">${Number(p.occupied).toLocaleString("en-IN")}</b> Ac</td>
+            <td><b style="color:#ea580c">${Number(p.working).toLocaleString("en-IN")}</b> Ac</td>
+            <td>₹${Number(p.alloc).toLocaleString("en-IN")} Cr</td>
+            <td><b>₹${Number(p.spent).toLocaleString("en-IN")} Cr</b></td>
+            <td>${Number(p.families).toLocaleString("en-IN")} PAFs</td>
+            <td><span class="badge ${statusClass}">${esc(p.status)}</span></td>
+            <td>
+              <button class="btn-standard" style="padding:3px 8px;font-size:11.5px;background:#1a3d6d;white-space:nowrap" onclick="openDemoDoc('${p.docId || "GAZETTE-2026-SO-4412"}')">
+                👁️ View Document
+              </button>
+            </td>
+          </tr>
+        `;
+      }).join("");
+    }
+  }
+
+  // Render Annual Macro Summary Table
+  if (annualTableBody) {
+    const annualRecords = DB.historical_records || HISTORICAL_DATA;
+    annualTableBody.innerHTML = annualRecords.map(r => `
+      <tr>
+        <td><strong style="color:#1a3d6d;font-size:13.5px">${esc(r.year)}</strong></td>
+        <td><b style="color:#16a34a">${Number(r.occupied).toLocaleString("en-IN")}</b> Acres</td>
+        <td><b style="color:#ea580c">${Number(r.working).toLocaleString("en-IN")}</b> Acres</td>
+        <td>₹${Number(r.budget_alloc).toLocaleString("en-IN")} Cr</td>
+        <td><b>₹${Number(r.budget_spent).toLocaleString("en-IN")} Cr</b> <small style="color:#16a34a">(${Math.round(r.budget_spent/r.budget_alloc*100)}%)</small></td>
+        <td>${Number(r.families).toLocaleString("en-IN")}</td>
+        <td>${r.milestones} Corridors</td>
+        <td style="font-size:11.5px;color:#475569">${esc(r.summary)}</td>
+        <td>
+          <button class="btn-standard" style="padding:3px 8px;font-size:11.5px;background:#0d9488;white-space:nowrap" onclick="openDemoDoc('CAG-AUDIT-2021-2027')">
+            📜 View Audit Gazette
+          </button>
+        </td>
+      </tr>
+    `).join("");
+  }
+
+  // Render Visual Charts
   if (chartEl) {
+    const records = DB.historical_records || HISTORICAL_DATA;
     const maxOccupied = 70000;
     const maxBudget = 1400;
 
     chartEl.innerHTML = `
       <div class="grid2" style="margin-top:10px">
         <div class="gov-panel">
-          <div class="gov-panel-header"><h3>📈 Land Extent: Occupied vs Working Land (2021–2027)</h3></div>
+          <div class="gov-panel-header"><h3>📈 Cumulative Land Extent: Occupied vs Working Land (2021–2027)</h3></div>
           <div class="gov-panel-body">
             ${records.map(r => `
               <div style="margin-bottom:10px">
@@ -695,150 +1284,125 @@ function renderArchives(){
 }
 
 function exportArchivesCSV(){
-  const records = DB.historical_records || HISTORICAL_DATA;
-  let csv = "Financial_Year,Occupied_Land_Acres,Working_Land_Acres,Budget_Allocated_Crores,Budget_Spent_Crores,Families_Compensated,Corridors_Completed,Summary\n";
-  records.forEach(r => {
-    csv += `"${r.year}",${r.occupied},${r.working},${r.budget_alloc},${r.budget_spent},${r.families},${r.milestones},"${r.summary.replace(/"/g, '""')}"\n`;
+  let csv = "Record_Type,Record_ID,Financial_Year,Project_Name,State,District,Agency,Occupied_Land_Acres,Working_Land_Acres,Budget_Sanctioned_Cr,Budget_Spent_Cr,Families_Compensated,Status\\n";
+  
+  // Annual Macro
+  const annual = DB.historical_records || HISTORICAL_DATA;
+  annual.forEach(r => {
+    csv += `"Annual_Macro","MACRO-${r.year}","${r.year}","National Cumulative Corridor Portfolio","All India","Central","DoLR",${r.occupied},${r.working},${r.budget_alloc},${r.budget_spent},${r.families},"${r.summary.replace(/"/g, '""')}"\\n`;
+  });
+
+  // Project Level
+  HISTORICAL_PROJECT_RECORDS.forEach(p => {
+    csv += `"Corridor_Record","${p.id}","${p.fy}","${p.name.replace(/"/g, '""')}","${p.state}","${p.district}","${p.agency}",${p.occupied},${p.working},${p.alloc},${p.spent},${p.families},"${p.status}"\\n`;
   });
 
   const blob = new Blob([csv], { type: "text/csv;charset=utf-8;" });
   const url = URL.createObjectURL(blob);
   const a = document.createElement("a");
   a.href = url;
-  a.download = `NLAMS_MultiYear_Land_Records_2021_2027.csv`;
+  a.download = `NLAMS_MultiYear_Historical_Land_Records_2021_2027.csv`;
   document.body.appendChild(a);
   a.click();
   document.body.removeChild(a);
-  audit("Downloaded Multi-Year Historical Records CSV", "fetch");
+  audit("Exported Multi-Year Historical Land Acquisition Records CSV", "fetch");
 }
 
-// ── PYTHON & SQL BACKEND GATEWAY CONSOLE ──────────────────────
-function renderBackendPage(){
-  testBackendHealth();
-}
+// ── OFFICIAL STATUTORY DEMO DOCUMENT VIEWER MODAL ────────────────
+function openDemoDoc(docId){
+  const modal = document.getElementById("doc-viewer-modal");
+  if (!modal) return;
 
-function testBackendHealth(){
-  const statusEl = document.getElementById("backend-status-indicator");
-  if (!statusEl) return;
-  statusEl.innerHTML = `<span>⏳ Checking Python FastAPI connection on <code>http://127.0.0.1:8000</code>...</span>`;
-
-  fetch("http://127.0.0.1:8000/", { method: "GET" })
-    .then(res => res.json())
-    .then(data => {
-      statusEl.innerHTML = `<span class="badge low" style="font-size:12px">🟢 Python FastAPI Backend Connected (v${data.version}) &bull; Engine: ${data.database}</span>`;
-    })
-    .catch(() => {
-      statusEl.innerHTML = `<span class="badge med" style="font-size:12px">⚡ Client-Side Dual Mode Active (GitHub Pages Standalone) &bull; Backend ready at <code>backend/main.py</code></span>`;
-    });
-}
-
-function selectSQLTemplate(){
-  const select = document.getElementById("sql-query-select");
-  const editor = document.getElementById("sql-query-input");
-  if (select && editor) {
-    editor.value = select.value;
-  }
-}
-
-function executeSQLQuery(){
-  const editor = document.getElementById("sql-query-input");
-  const resultDiv = document.getElementById("sql-query-output");
-  if (!editor || !resultDiv) return;
-
-  const q = editor.value.trim();
-  if (!q) return;
-
-  resultDiv.innerHTML = `<div style="padding:12px;color:#475569">⏳ Executing SQL query against NLAMS Database Engine...</div>`;
-
-  fetch("http://127.0.0.1:8000/api/sql-query", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ query: q })
-  })
-  .then(res => res.json())
-  .then(data => {
-    if (data.detail) {
-      resultDiv.innerHTML = `<div style="padding:12px;color:#dc2626;background:#fef2f2;border:1px solid #fecdd3"><strong>SQL Error:</strong> ${esc(data.detail)}</div>`;
-    } else {
-      renderSQLTable(data.columns, data.rows, "Python FastAPI Engine (3.2 ms)");
-    }
-  })
-  .catch(() => {
-    simulateClientSQL(q);
-  });
-
-  audit("Executed SQL Query in Console: " + q.slice(0, 60), "fetch");
-}
-
-function simulateClientSQL(query){
-  const qUpper = query.toUpperCase();
-  const startTime = performance.now();
-  let columns = [];
-  let rows = [];
-
-  if (qUpper.includes("HISTORICAL_RECORDS")) {
-    columns = ["financial_year", "occupied_land_acres", "working_land_acres", "budget_allocated_crores", "budget_spent_crores", "families_compensated"];
-    rows = DB.historical_records.map(r => ({
-      financial_year: r.year,
-      occupied_land_acres: r.occupied,
-      working_land_acres: r.working,
-      budget_allocated_crores: r.budget_alloc,
-      budget_spent_crores: r.budget_spent,
-      families_compensated: r.families
-    }));
-  } else if (qUpper.includes("PARCELS")) {
-    columns = ["parcel_id", "ulpin", "village", "survey_number", "area_acres", "occupied_acres", "working_acres", "work_status", "contractor"];
-    rows = DB.parcels.map(p => ({
-      parcel_id: p.id,
-      ulpin: p.ulpin,
-      village: p.village,
-      survey_number: p.survey,
-      area_acres: p.area,
-      occupied_acres: p.occupied_acres,
-      working_acres: p.working_acres,
-      work_status: p.work_status,
-      contractor: p.contractor
-    }));
-  } else {
-    columns = ["project_id", "name", "state", "district", "total_land_acres", "working_land_acres", "occupied_land_acres", "budget_estimate_crores", "status"];
-    rows = DB.projects.map(pr => ({
-      project_id: pr.id,
-      name: pr.name,
-      state: pr.state,
-      district: pr.district,
-      total_land_acres: pr.totalLand,
-      working_land_acres: pr.workingLand || 0,
-      occupied_land_acres: pr.occupiedLand || pr.acquired,
-      budget_estimate_crores: pr.compEst,
-      status: pr.status
-    }));
+  if (docId && DEMO_DOCUMENTS[docId]) {
+    activeDocKey = docId;
+  } else if (!DEMO_DOCUMENTS[activeDocKey]) {
+    activeDocKey = "GAZETTE-2026-SO-4412";
   }
 
-  const elapsed = (performance.now() - startTime + 2.4).toFixed(1);
-  renderSQLTable(columns, rows, `SQLite Virtual Parser (${elapsed} ms)`);
+  renderDocTabs();
+  renderDocContent(activeDocKey);
+  modal.style.display = "flex";
+  audit("Viewed Official Statutory Document: " + activeDocKey, "fetch");
 }
 
-function renderSQLTable(columns, rows, engineNote){
-  const resultDiv = document.getElementById("sql-query-output");
-  if (!resultDiv) return;
+function renderDocTabs(){
+  const tabsContainer = document.getElementById("doc-switcher-tabs");
+  if (!tabsContainer) return;
 
-  let html = `
-    <div style="display:flex;justify-content:space-between;align-items:center;background:#f8fafc;padding:8px 12px;border:1px solid #cbd5e1;border-bottom:0;font-size:11.5px">
-      <span><strong>Rows Returned:</strong> ${rows.length} records</span>
-      <span style="color:#16a34a;font-weight:700">⚡ ${engineNote}</span>
-    </div>
-    <div style="overflow-x:auto;max-height:360px">
-      <table class="gov-table" style="margin:0">
-        <thead>
-          <tr>${columns.map(c => `<th>${esc(c)}</th>`).join("")}</tr>
-        </thead>
-        <tbody>
-          ${rows.map(r => `<tr>${columns.map(c => `<td>${esc(r[c] !== undefined ? r[c] : "")}</td>`).join("")}</tr>`).join("")}
-        </tbody>
-      </table>
-    </div>
-  `;
-  resultDiv.innerHTML = html;
+  const docKeys = Object.keys(DEMO_DOCUMENTS);
+  tabsContainer.innerHTML = docKeys.map(k => {
+    const doc = DEMO_DOCUMENTS[k];
+    const isActive = k === activeDocKey ? "active" : "";
+    return `
+      <button class="doc-tab-btn ${isActive}" onclick="switchDocTab('${k}')">
+        📜 ${esc(doc.shortName)}
+      </button>
+    `;
+  }).join("");
+}
+
+function switchDocTab(k){
+  if (!DEMO_DOCUMENTS[k]) return;
+  activeDocKey = k;
+  renderDocTabs();
+  renderDocContent(k);
+}
+
+function renderDocContent(k){
+  const contentContainer = document.getElementById("doc-paper-content");
+  const titleEl = document.getElementById("doc-modal-title");
+  if (!contentContainer) return;
+
+  const doc = DEMO_DOCUMENTS[k] || DEMO_DOCUMENTS["GAZETTE-2026-SO-4412"];
+  if (titleEl) {
+    titleEl.textContent = `भारत सरकार | Government of India — ${doc.title}`;
+  }
+  contentContainer.innerHTML = doc.html;
+}
+
+function closeDemoDoc(){
+  const modal = document.getElementById("doc-viewer-modal");
+  if (modal) modal.style.display = "none";
+}
+
+function printDemoDoc(){
+  const doc = DEMO_DOCUMENTS[activeDocKey];
+  if (!doc) return;
+  const printWin = window.open('', '_blank', 'width=880,height=800');
+  if (!printWin) {
+    window.print();
+    return;
+  }
+  printWin.document.write(`
+    <!DOCTYPE html>
+    <html>
+      <head>
+        <title>${doc.title}</title>
+        <style>
+          body { font-family: 'Times New Roman', Georgia, serif; line-height: 1.6; padding: 40px; color: #000; }
+          .gazette-header-block { text-align: center; border-bottom: 2px solid #000; padding-bottom: 14px; margin-bottom: 20px; }
+          .gazette-title-hindi { font-size: 22px; font-weight: bold; }
+          .gazette-title-eng { font-size: 18px; font-weight: bold; text-transform: uppercase; }
+          .gazette-sub { font-size: 12px; font-weight: bold; }
+          .gazette-meta-row { display: flex; justify-content: space-between; border-top: 1px solid #444; border-bottom: 1px solid #444; padding: 6px 0; margin: 12px 0 20px 0; font-size: 11.5px; }
+          .gazette-order-title { text-align: center; font-weight: bold; font-size: 15px; margin-bottom: 16px; }
+          .gazette-clause { margin-bottom: 14px; text-align: justify; text-indent: 28px; }
+          .gazette-table { width: 100%; border-collapse: collapse; margin: 16px 0; font-size: 12px; }
+          .gazette-table th, .gazette-table td { border: 1px solid #333; padding: 6px 8px; text-align: left; }
+          .gazette-table th { background: #f0f0f0; }
+          .gazette-digital-sig { border: 2px dashed #333; padding: 12px; margin-top: 24px; }
+          .gazette-watermark { display: none; }
+        </style>
+      </head>
+      <body>
+        ${doc.html}
+        <script>
+          window.onload = function(){ window.print(); };
+        </script>
+      </body>
+    </html>
+  `);
+  printWin.document.close();
 }
 
 // ── DEPT INTEGRATION (NDSAP Open Govt API Gateway) ───────────
@@ -877,7 +1441,22 @@ function renderDocs(){
     `<tr><td>📄 ${esc(d.name)}</td><td>${esc(d.ver)}</td><td>${esc(d.by)}</td><td>${esc(d.date)}</td>
      <td>${esc(d.status)}</td><td><button class="btn-standard" style="padding:3px 8px;font-size:12px" onclick="viewDoc(${i})">View</button></td></tr>`).join("");
 }
-function viewDoc(i){ alert("Preview (simulated, access-logged): " + DB.docs[i].name); audit("Viewed doc: " + DB.docs[i].name, "write"); }
+function viewDoc(i){
+  const docObj = DB.docs[i];
+  if (!docObj) return;
+  const name = docObj.name.toLowerCase();
+  let targetKey = "GAZETTE-2026-SO-4412";
+  if (name.includes("social impact") || name.includes("sia")) {
+    targetKey = "SIA-REPORT-2026-04";
+  } else if (name.includes("valuation") || name.includes("compensation")) {
+    targetKey = "AWARD-VAL-2026-892";
+  } else if (name.includes("proposal") || name.includes("survey") || name.includes("cadastral")) {
+    targetKey = "BHUVAN-JVS-2026-091";
+  } else if (name.includes("r&r") || name.includes("resettlement")) {
+    targetKey = "RR-SCHEME-2026-04";
+  }
+  openDemoDoc(targetKey);
+}
 function uploadDoc(){
   const raw = (document.getElementById("nd-name").value || "New_Document.pdf").trim();
   const n = raw.replace(/[^a-zA-Z0-9.\-_ ]/g, "").trim();
