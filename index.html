@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>SIH 26016 - National Land Acquisition System</title>
+<link rel="stylesheet" href="styles.css" />
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+</head>
+<body>
+
+<!-- LOGIN SCREEN -->
+<div id="login-screen" class="login-wrap">
+  <div class="login-card">
+    <h1>🇮🇳 National Land Acquisition System</h1>
+    <p class="sub">SIH 26016 | Ministry of Rural Development, DoLR<br/>Real-Time Monitoring & Decision Support — Proposal to Possession</p>
+    <label>Email <input id="login-email" value="admin@gov.in" /></label>
+    <label>Password <input id="login-pass" type="password" value="demo123" /></label>
+    <label>Role
+      <select id="login-role">
+        <option>Central Admin</option><option>State Officer</option>
+        <option>District Officer</option><option>Project Agency</option><option>Field Officer</option>
+      </select>
+    </label>
+    <button onclick="login()">Login</button>
+    <div class="demo">
+      <b>Demo accounts (pass: demo123):</b><br/>
+      admin@gov.in (Central Admin) • state@gov.in (State) • district@gov.in (District)<br/>
+      agency@gov.in (Agency) • field@gov.in (Field)
+    </div>
+    <p id="login-err" class="err"></p>
+  </div>
+</div>
+
+<!-- APP -->
+<div id="app" style="display:none">
+<header>
+  <div><h2>🇮🇳 NLAS — Decision Support Platform</h2><small id="user-info"></small></div>
+  <div><span id="live-badge" class="live">● LIVE</span> <button onclick="logout()">Logout</button></div>
+</header>
+<nav>
+  <button onclick="showPage('dashboard')">📊 Dashboard</button>
+  <button onclick="showPage('projects')">📁 Projects</button>
+  <button onclick="showPage('detail')">🧾 Project Details</button>
+  <button onclick="showPage('map')">🗺️ GIS Map</button>
+  <button onclick="showPage('docs')">📄 Documents</button>
+  <button onclick="showPage('ai')">🤖 AI Risk</button>
+  <button onclick="showPage('alerts')">🔔 Alerts <span id="nav-alert-count"></span></button>
+  <button onclick="showPage('analytics')">📈 Analytics</button>
+  <button onclick="showPage('audit')">� audit</button>
+</nav>
+<main>
+  <!-- DASHBOARD -->
+  <section id="page-dashboard" class="page">
+    <h2>Real-Time National Dashboard</h2>
+    <div class="cards">
+      <div class="card"><h4>Total Projects</h4><p>128</p></div>
+      <div class="card"><h4>Land Proposed</h4><p>52,430 Acre</p></div>
+      <div class="card"><h4>Land Acquired</h4><p>31,820 Acre</p></div>
+      <div class="card"><h4>Compensation</h4><p>₹842 Cr</p></div>
+    </div>
+    <div class="cards">
+      <div class="card green"><h4>Completed</h4><p>42</p></div>
+      <div class="card green"><h4>On Track</h4><p>51</p></div>
+      <div class="card orange"><h4>Delayed</h4><p id="kpi-delayed">25</p></div>
+      <div class="card red"><h4>Critical</h4><p id="kpi-critical">10</p></div>
+    </div>
+    <div class="grid2">
+      <div class="panel"><h3>State-wise projects</h3><div id="state-wise"></div></div>
+      <div class="panel"><h3>Latest critical alerts</h3><ul id="dash-alerts"></ul>
+      <button onclick="showPage('detail')">▶ Open Demo Project LA-2026-001</button></div>
+    </div>
+    <p class="note">Prototype uses simulated data. Production integrates land records, cadastral maps, state portals via APIs without changing this workflow.</p>
+  </section>
+
+  <!-- PROJECTS -->
+  <section id="page-projects" class="page" style="display:none">
+    <h2>Projects <button onclick="openCreate()">+ New Proposal (Agency)</button></h2>
+    <input id="proj-search" placeholder="Search id / name / state..." oninput="renderProjects()" />
+    <table><thead><tr><th>ID</th><th>Name</th><th>State</th><th>Progress</th><th>Risk</th><th>Stage</th><th></th></tr></thead>
+    <tbody id="proj-rows"></tbody></table>
+    <div id="create-box" style="display:none" class="panel">
+      <h3>Submit Acquisition Proposal</h3>
+      <input id="np-name" placeholder="Project name e.g. Bengaluru–Chennai Highway Expansion" />
+      <input id="np-state" placeholder="State" value="Karnataka" /> <input id="np-dist" placeholder="District" value="Kolar" />
+      <input id="np-land" type="number" placeholder="Required land (acre)" value="500" />
+      <button onclick="createProject()">Create Project</button>
+    </div>
+  </section>
+
+  <!-- DETAIL + TIMELINE -->
+  <section id="page-detail" class="page" style="display:none">
+    <h2 id="d-title"></h2>
+    <p id="d-meta"></p>
+    <div class="progress"><div id="d-bar"></div></div><p id="d-prog"></p>
+    <h3>End-to-End Acquisition Lifecycle</h3>
+    <div id="timeline" class="timeline"></div>
+    <div class="panel"><h3>Update milestone (role-gated)</h3>
+      <select id="upd-stage"></select>
+      <select id="upd-status"><option>Completed</option><option>In Progress</option><option>Pending</option></select>
+      <button onclick="updateMilestone()">Update Status</button>
+      <small id="role-hint"></small>
+    </div>
+  </section>
+
+  <!-- MAP -->
+  <section id="page-map" class="page" style="display:none">
+    <h2>GIS Land Parcel Map — Kolar, Karnataka</h2>
+    <p>🟢 Acquired &nbsp; 🟡 Under Process &nbsp; 🔴 Pending | Click parcel for owner, area, compensation. Simulated coords for prototype.</p>
+    <div id="map"></div>
+    <div id="parcel-info" class="panel"></div>
+  </section>
+
+  <!-- DOCS -->
+  <section id="page-docs" class="page" style="display:none">
+    <h2>Document Repository (version + audit)</h2>
+    <table><thead><tr><th>Name</th><th>Version</th><th>By</th><th>Date</th><th>Status</th><th></th></tr></thead>
+    <tbody id="doc-rows"></tbody></table>
+    <div class="panel"><h3>Upload (simulated)</h3>
+      <input id="nd-name" placeholder="e.g. Compensation_Report_v3.pdf" />
+      <button onclick="uploadDoc()">Upload</button>
+    </div>
+  </section>
+
+  <!-- AI -->
+  <section id="page-ai" class="page" style="display:none">
+    <h2>AI Delay Prediction — Decision Support</h2>
+    <div class="grid2">
+      <div class="panel">
+        <label>Pending approvals <input id="ai-appr" type="number" value="3" min="0" max="5" /></label>
+        <label>Pending compensation cases <input id="ai-comp" type="number" value="42" min="0" max="100" /></label>
+        <label>Litigation cases <input id="ai-lit" type="number" value="12" min="0" max="20" /></label>
+        <label>R&R pending % <input id="ai-rr" type="number" value="70" min="0" max="100" /></label>
+        <label>Days overdue <input id="ai-over" type="number" value="18" min="0" max="60" /></label>
+        <button onclick="runAI()">Calculate Risk</button>
+        <button onclick="demoFix()">Demo: Mark Compensation Completed → Re-run</button>
+      </div>
+      <div class="panel">
+        <h3>Delay Risk</h3><div class="riskbar"><div id="risk-fill"></div></div>
+        <p id="risk-label"></p><p id="risk-reason"></p><p id="risk-action"></p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ALERTS -->
+  <section id="page-alerts" class="page" style="display:none">
+    <h2>Automated Alerts</h2><ul id="alert-list"></ul>
+  </section>
+
+  <!-- ANALYTICS -->
+  <section id="page-analytics" class="page" style="display:none">
+    <h2>Analytics</h2>
+    <h4>Delay by stage</h4><div id="ch-stage"></div>
+    <h4>Risk distribution</h4><div id="ch-risk"></div>
+  </section>
+
+  <!-- AUDIT -->
+  <section id="page-audit" class="page" style="display:none">
+    <h2>Audit Trail</h2><table><thead><tr><th>Time</th><th>User</th><th>Action</th></tr></thead>
+    <tbody id="audit-rows"></tbody></table>
+    <h3>API architecture (for PPT)</h3>
+    <code>POST /login • GET /projects • POST /projects • GET /projects/:id • GET /projects/:id/parcels • GET /projects/:id/documents • GET /alerts • GET /analytics</code>
+  </section>
+</main>
+</div>
+<script src="app.js"></script>
+</body>
+</html>
