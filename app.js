@@ -432,6 +432,15 @@ function renderAudit(){
 // ── INIT ──────────────────────────────────────────────────────
 newCaptcha();
 
+// National Portal chrome helpers (original code, portal-inspired layout)
+let fontSize = 16, hi = false;
+function fontStep(d){ fontSize = Math.max(13, Math.min(20, fontSize + d)); document.body.style.fontSize = fontSize + "px"; }
+function fontReset(){ fontSize = 16; document.body.style.fontSize = "16px"; }
+function toggleContrast(){ document.body.classList.toggle("hc"); }
+function toggleLang(){ hi = !hi; document.querySelectorAll("[data-en]").forEach(el => { el.textContent = hi ? el.dataset.hi : el.dataset.en; }); const b = document.getElementById("lang-btn"); if (b) b.textContent = hi ? "हिन्दी / English" : "English / हिन्दी"; }
+function portalGo(p){ if (document.getElementById("app").style.display === "none") { alert("Please Secure Login first (demo: admin@gov.in / demo123)."); return; } showPage(p); }
+function portalSearch(q){ q = (q||"").toLowerCase(); if (!q) return; const map = { project: "projects", parcel: "map", gis: "map", bhuvan: "map", doc: "docs", risk: "ai", alert: "alerts", audit: "audit", dept: "dept", revenue: "dept", pfms: "dept" }; for (const k in map) if (q.includes(k)) { portalGo(map[k]); return; } }
+
 // National Portal Visitor Counter (india.gov.in standard)
 try {
   let vc = +localStorage.getItem("nlas_vc") || 148293;
