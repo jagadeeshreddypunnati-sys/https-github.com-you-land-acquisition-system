@@ -1267,3 +1267,31 @@ footer.gov-portal-footer {
   color: #ffffff;
   border-color: #1a3d6d;
 }
+
+/* ── MVP add-ons: language selector, discrepancy, field, landowner ── */
+#lang-select {
+  background: #0c2340;
+  color: #ffbe00;
+  border: 1px solid #ffbe00;
+  border-radius: 3px;
+  padding: 2px 6px;
+  font-size: 12px;
+  font-weight: 700;
+  cursor: pointer;
+  max-width: 130px;
+}
+#lang-select option { color: #0c2340; background: #fff; }
+#disc-summary .badge { padding: 4px 12px; border-radius: 20px; font-weight: 700; }
+#fv-checks label {
+  display: flex; gap: 8px; align-items: flex-start;
+  background: #f8fafc; border: 1px solid #e2e8f0;
+  border-radius: 6px; padding: 8px 10px; cursor: pointer;
+}
+#fv-checks input[type="checkbox"] { width: 16px; height: 16px; margin-top: 2px; accent-color: #1a3d6d; }
+#fv-notes, #gr-text, #gr-fam, #gr-cat, #lo-search, #fv-parcel {
+  border: 1px solid #94a3b8; border-radius: 4px; font-size: 13px;
+}
+#lo-result .tstep { min-width: 150px; }
+@media (max-width: 700px) {
+  #lang-select { max-width: 100px; font-size: 11px; }
+}

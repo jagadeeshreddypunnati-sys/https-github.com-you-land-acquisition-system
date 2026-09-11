@@ -38,7 +38,21 @@
     <a href="https://digitallocker.gov.in" target="_blank" rel="noopener" title="DigiLocker National Cloud">DigiLocker</a>
     <span style="opacity:0.4">•</span>
     <button onclick="showArchivesPublic()" class="a11y-btn" style="background:#ffbe00;color:#0c2340;font-weight:bold;margin-right:4px;cursor:pointer">📂 Public Archives (2021–2027)</button>
-    <span style="color:#ffbe00;font-weight:700">English | हिन्दी</span>
+    <select id="lang-select" onchange="setLang(this.value)" title="Choose language / भाषा चुनें" style="background:#0c2340;color:#ffbe00;border:1px solid #ffbe00;border-radius:3px;padding:2px 6px;font-size:12px;font-weight:700;cursor:pointer">
+      <option value="en">English</option>
+      <option value="hi">हिन्दी</option>
+      <option value="bn">বাংলা</option>
+      <option value="te">తెలుగు</option>
+      <option value="mr">मराठी</option>
+      <option value="ta">தமிழ்</option>
+      <option value="gu">ગુજરાતી</option>
+      <option value="kn">ಕನ್ನಡ</option>
+      <option value="ml">മലയാളം</option>
+      <option value="pa">ਪੰਜਾਬੀ</option>
+      <option value="or">ଓଡ଼ିଆ</option>
+      <option value="ur">اردو</option>
+      <option value="as">অসমীয়া</option>
+    </select>
   </div>
 </div>
 
@@ -230,17 +244,19 @@
 
 <!-- ── 5. Main Portal Navigation Bar (india.gov.in Style) ── -->
 <nav class="main-nav" aria-label="Portal Navigation">
-  <button onclick="showPage('dashboard')" id="nav-dashboard" class="active">🏛️ National MIS</button>
-  <button onclick="showPage('projects')" id="nav-projects">📁 Acquisition Projects</button>
-  <button onclick="showPage('detail')" id="nav-detail">📜 Statutory Milestones</button>
-  <button onclick="showPage('map')" id="nav-map">🗺️ Bhuvan GIS Cadastral</button>
-  <button onclick="showPage('dept')" id="nav-dept">🏢 Department Interoperability</button>
-  <button onclick="showPage('docs')" id="nav-docs">📂 DigiLocker Records</button>
-  <button onclick="showPage('ai')" id="nav-ai">🤖 AI Delay &amp; Risk Engine</button>
-  <button onclick="showPage('alerts')" id="nav-alerts">🔔 Statutory Alerts <span id="nav-alert-count"></span></button>
-  <button onclick="showPage('analytics')" id="nav-analytics">📊 National Analytics</button>
-  <button onclick="showPage('audit')" id="nav-audit">🛡️ Cyber Audit Trail</button>
-  <button onclick="showPage('archives')" id="nav-archives">🏛️ Multi-Year Archives (2021–2027)</button>
+  <button onclick="showPage('dashboard')" id="nav-dashboard" class="active">🏛️ <span data-i18n="nav.dashboard">National MIS</span></button>
+  <button onclick="showPage('projects')" id="nav-projects">📁 <span data-i18n="nav.projects">Acquisition Projects</span></button>
+  <button onclick="showPage('detail')" id="nav-detail">📜 <span data-i18n="nav.detail">Statutory Milestones</span></button>
+  <button onclick="showPage('map')" id="nav-map">🗺️ <span data-i18n="nav.map">Bhuvan GIS Cadastral</span></button>
+  <button onclick="showPage('field')" id="nav-field">📋 <span data-i18n="nav.field">Field Verification</span></button>
+  <button onclick="showPage('dept')" id="nav-dept">🏢 <span data-i18n="nav.dept">Department Interoperability</span></button>
+  <button onclick="showPage('docs')" id="nav-docs">📂 <span data-i18n="nav.docs">DigiLocker Records</span></button>
+  <button onclick="showPage('ai')" id="nav-ai">🤖 <span data-i18n="nav.ai">AI Delay &amp; Risk Engine</span></button>
+  <button onclick="showPage('alerts')" id="nav-alerts">🔔 <span data-i18n="nav.alerts">Statutory Alerts</span> <span id="nav-alert-count"></span></button>
+  <button onclick="showPage('analytics')" id="nav-analytics">📊 <span data-i18n="nav.analytics">National Analytics</span></button>
+  <button onclick="showPage('landowner')" id="nav-landowner">👨‍🌾 <span data-i18n="nav.landowner">Landowner Portal</span></button>
+  <button onclick="showPage('audit')" id="nav-audit">🛡️ <span data-i18n="nav.audit">Cyber Audit Trail</span></button>
+  <button onclick="showPage('archives')" id="nav-archives">🏛️ <span data-i18n="nav.archives">Multi-Year Archives (2021–2027)</span></button>
 </nav>
 
 <!-- ── 6. Secondary Officer Session & Breadcrumb Strip ── -->
@@ -567,6 +583,34 @@
         <small style="display:block;margin-top:6px;color:#64748b;font-size:11.5px">Strict input sanitization enforced. Only .pdf extensions permitted. Stamped with ISO-27001 audit stamp.</small>
       </div>
     </div>
+
+    <div class="gov-panel" style="margin-top:16px;border-top:4px solid #7c3aed">
+      <div class="gov-panel-header" style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px">
+        <h3>🤖 AI Document Discrepancy Detection — Record Cross-Verification</h3>
+        <button class="btn-standard" style="background:#7c3aed" onclick="runDiscrepancyScan()">🔍 Run AI Discrepancy Scan</button>
+      </div>
+      <div class="gov-panel-body">
+        <p style="font-size:12.5px;color:#475569">Compares every uploaded document against Bhoomi RTC, survey records &amp; award registers: area mismatch, survey-number mismatch, compensation variance, version conflicts, missing mandatory documents. HIGH findings auto-raise statutory alerts.</p>
+        <div id="disc-summary" style="display:flex;gap:10px;flex-wrap:wrap;margin:10px 0"></div>
+        <div style="overflow-x:auto">
+          <table class="gov-table" style="margin:0">
+            <thead>
+              <tr>
+                <th>Document</th>
+                <th>Linked Parcel</th>
+                <th>Check</th>
+                <th>Declared vs Record</th>
+                <th>Severity</th>
+                <th>Recommended Action</th>
+              </tr>
+            </thead>
+            <tbody id="disc-rows">
+              <tr><td colspan="6" style="text-align:center;color:#64748b">No scan run yet. Click “Run AI Discrepancy Scan”.</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
   </section>
 
   <!-- ── PAGE 7: AI DELAY & RISK ENGINE ── -->
@@ -808,6 +852,92 @@
 
     <!-- Comparative Visual Charts -->
     <div id="archives-charts"></div>
+  </section>
+
+  <!-- ── PAGE 12: FIELD VERIFICATION (Panchnama / Spot Inspection) ── -->
+  <section id="page-field" class="page" style="display:none">
+    <div class="page-header-row">
+      <div>
+        <h2 class="page-title-main">📋 Field Verification — Spot Inspection &amp; Panchnama</h2>
+        <p class="page-title-sub">Find land → Verify on ground: boundary, RTC, occupant statement, geo-tagged evidence (RFCTLARR §§4–8)</p>
+      </div>
+      <div><span id="field-pending-count" class="badge med"></span></div>
+    </div>
+
+    <div class="grid2">
+      <div class="gov-panel">
+        <div class="gov-panel-header"><h3>Submit Verification Report</h3></div>
+        <div class="gov-panel-body">
+          <label style="font-size:12.5px;font-weight:700">Land Parcel</label>
+          <select id="fv-parcel" style="width:100%" onchange="renderFieldHistory()"></select>
+          <div id="fv-checks" style="margin:10px 0;display:flex;flex-direction:column;gap:8px;font-size:13px">
+            <label><input type="checkbox" id="fv-c1" /> Boundary pillars &amp; chainage match survey map</label>
+            <label><input type="checkbox" id="fv-c2" /> RTC / Khata holder matches claimant</label>
+            <label><input type="checkbox" id="fv-c3" /> Occupant statement recorded (Panchnama)</label>
+            <label><input type="checkbox" id="fv-c4" /> Geo-tagged site photographs captured</label>
+            <label><input type="checkbox" id="fv-c5" /> Measured area matches revenue record (±2%)</label>
+          </div>
+          <label style="font-size:12.5px;font-weight:700">Field Notes</label>
+          <textarea id="fv-notes" rows="3" style="width:100%;padding:8px" placeholder="e.g. Standing crop paddy; well on Sy 115/2 verified..."></textarea>
+          <div style="margin-top:8px;display:flex;gap:8px">
+            <button class="btn-standard" onclick="submitFieldVerification()">✅ Submit Verification</button>
+          </div>
+          <small style="color:#64748b">Field Officer / District role. Every submission is audit-logged with officer identity.</small>
+        </div>
+      </div>
+      <div class="gov-panel">
+        <div class="gov-panel-header"><h3>Verification History</h3></div>
+        <div class="gov-panel-body"><div id="fv-history"></div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── PAGE 13: LANDOWNER PORTAL + COMPENSATION TRACKER ── -->
+  <section id="page-landowner" class="page" style="display:none">
+    <div class="page-header-row">
+      <div>
+        <h2 class="page-title-main">👨‍🌾 Landowner Portal — Compensation Tracker</h2>
+        <p class="page-title-sub">Track acquisition → Monitor compensation → Raise grievance. PII masked under DPDP Act 2023.</p>
+      </div>
+    </div>
+
+    <div class="gov-panel">
+      <div class="gov-panel-header"><h3>Find My Record (Family ID / Parcel ID)</h3></div>
+      <div class="gov-panel-body">
+        <div style="display:flex;gap:8px;flex-wrap:wrap">
+          <input id="lo-search" placeholder="e.g. FAM-KA-001 or KA-00121" style="max-width:320px;width:100%" />
+          <button class="btn-standard" onclick="lookupFamily()">🔍 Track Compensation</button>
+        </div>
+        <small style="color:#64748b">Demo IDs: FAM-KA-001 … FAM-KA-005 (also searchable by parcel ID)</small>
+        <div id="lo-result" style="margin-top:12px"></div>
+      </div>
+    </div>
+
+    <div class="grid2">
+      <div class="gov-panel">
+        <div class="gov-panel-header"><h3>Project Compensation Summary (LA-2026-001)</h3></div>
+        <div class="gov-panel-body"><div id="lo-summary"></div></div>
+      </div>
+      <div class="gov-panel">
+        <div class="gov-panel-header"><h3>📝 Grievance / Objection (Sec 15 / Sec 64)</h3></div>
+        <div class="gov-panel-body">
+          <label style="font-size:12.5px;font-weight:700">Family ID</label>
+          <input id="gr-fam" placeholder="FAM-KA-001" style="width:100%" />
+          <label style="font-size:12.5px;font-weight:700">Category</label>
+          <select id="gr-cat" style="width:100%">
+            <option>Compensation amount dispute</option>
+            <option>Payment not received (DBT)</option>
+            <option>R&amp;R entitlement pending</option>
+            <option>Measurement / boundary objection</option>
+            <option>Other</option>
+          </select>
+          <label style="font-size:12.5px;font-weight:700">Details</label>
+          <textarea id="gr-text" rows="3" style="width:100%;padding:8px" placeholder="Describe the issue..."></textarea>
+          <button class="btn-standard" style="margin-top:8px" onclick="submitGrievance()">Submit Grievance</button>
+          <div id="gr-msg" style="margin-top:8px;font-size:13px"></div>
+        </div>
+      </div>
+    </div>
   </section>
 
 </main>

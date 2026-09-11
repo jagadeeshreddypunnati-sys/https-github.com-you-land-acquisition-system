@@ -721,7 +721,9 @@ const PAGE_TITLES = {
   alerts: "Statutory Alerts",
   analytics: "National Analytics",
   audit: "Cyber Audit Trail",
-  archives: "Multi-Year Historical Records (2021–2027)"
+  archives: "Multi-Year Historical Records (2021–2027)",
+  field: "Field Verification (Panchnama)",
+  landowner: "Landowner Portal & Compensation Tracker"
 };
 
 function showPage(n){
@@ -739,6 +741,8 @@ function showPage(n){
   if (n === "analytics") renderAnalytics();
   if (n === "dept") renderDepts();
   if (n === "archives") renderArchives();
+  if (n === "field") renderFieldPage();
+  if (n === "landowner") renderLandownerPage();
 }
 
 // ── PUBLIC VIEW FOR MULTI-YEAR ARCHIVES (Can be seen by all before login) ──
@@ -1541,6 +1545,223 @@ function renderAudit(){
   }).join("");
 }
 
+// ── MULTILINGUAL (13 Indian languages) ────────────────────────
+const I18N = {
+en: {"nav.dashboard":"National MIS","nav.projects":"Acquisition Projects","nav.detail":"Statutory Milestones","nav.map":"Bhuvan GIS Cadastral","nav.field":"Field Verification","nav.dept":"Department Interoperability","nav.docs":"DigiLocker Records","nav.ai":"AI Delay & Risk Engine","nav.alerts":"Statutory Alerts","nav.analytics":"National Analytics","nav.landowner":"Landowner Portal","nav.audit":"Cyber Audit Trail","nav.archives":"Multi-Year Archives (2021–2027)","search.ph":"Search Record ID, ULPIN, Survey No, Project...","logout":"Logout"},
+hi: {"nav.dashboard":"राष्ट्रीय MIS","nav.projects":"अधिग्रहण परियोजनाएं","nav.detail":"वैधानिक मील के पत्थर","nav.map":"भूवन GIS भू-अभिलेख","nav.field":"क्षेत्र सत्यापन","nav.dept":"विभाग इंटरऑपरेबिलिटी","nav.docs":"डिजीलॉकर रिकॉर्ड","nav.ai":"AI विलंब व जोखिम इंजन","nav.alerts":"वैधानिक अलर्ट","nav.analytics":"राष्ट्रीय विश्लेषण","nav.landowner":"भूस्वामी पोर्टल","nav.audit":"साइबर ऑडिट ट्रेल","nav.archives":"बहु-वर्षीय अभिलेख (2021–2027)","search.ph":"रिकॉर्ड ID, ULPIN, सर्वे नं, परियोजना खोजें...","logout":"लॉगआउट"},
+bn: {"nav.dashboard":"জাতীয় MIS","nav.projects":"অধিগ্রহণ প্রকল্প","nav.detail":"সংবিধিবদ্ধ মাইলফলক","nav.map":"ভুবন GIS","nav.field":"মাঠ যাচাইকরণ","nav.dept":"বিভাগীয় আন্তঃকার্যকারিতা","nav.docs":"ডিজিলকার রেকর্ড","nav.ai":"AI বিলম্ব ও ঝুঁকি ইঞ্জিন","nav.alerts":"সংবিধিবদ্ধ সতর্কতা","nav.analytics":"জাতীয় বিশ্লেষণ","nav.landowner":"জমির মালিক পোর্টাল","nav.audit":"সাইবার অডিট ট্রেইল","nav.archives":"বহু-বার্ষিক আর্কাইভ (2021–2027)","search.ph":"রেকর্ড ID, ULPIN, সার্ভে নং, প্রকল্প খুঁজুন...","logout":"লগআউট"},
+te: {"nav.dashboard":"జాతీయ MIS","nav.projects":"సేకరణ ప్రాజెక్టులు","nav.detail":"చట్టబద్ధ మైలురాళ్ళు","nav.map":"భువన్ GIS","nav.field":"క్షేత్ర ధృవీకరణ","nav.dept":"శాఖ పరస్పర నిర్వహణ","nav.docs":"డిజిలాకర్ రికార్డులు","nav.ai":"AI ఆలస్యం & రిస్క్ ఇంజిన్","nav.alerts":"చట్టబద్ధ హెచ్చరికలు","nav.analytics":"జాతీయ విశ్లేషణ","nav.landowner":"భూయజమాని పోర్టల్","nav.audit":"సైబర్ ఆడిట్ ట్రైల్","nav.archives":"బహుళ-సంవత్సర ఆర్కైవ్స్ (2021–2027)","search.ph":"రికార్డ్ ID, ULPIN, సర్వే నం, ప్రాజెక్ట్ వెతకండి...","logout":"లాగ్అవుట్"},
+mr: {"nav.dashboard":"राष्ट्रीय MIS","nav.projects":"संपादन प्रकल्प","nav.detail":"वैधानिक टप्पे","nav.map":"भूवन GIS","nav.field":"क्षेत्र पडताळणी","nav.dept":"विभाग आंतरकार्यक्षमता","nav.docs":"डिजीलॉकर नोंदी","nav.ai":"AI विलंब व जोखीम इंजिन","nav.alerts":"वैधानिक सूचना","nav.analytics":"राष्ट्रीय विश्लेषण","nav.landowner":"जमीनमालक पोर्टल","nav.audit":"सायबर ऑडिट ट्रेल","nav.archives":"बहु-वार्षिक अभिलेख (2021–2027)","search.ph":"रेकॉर्ड ID, ULPIN, सर्वे नं, प्रकल्प शोधा...","logout":"लॉगआउट"},
+ta: {"nav.dashboard":"தேசிய MIS","nav.projects":"நில எடுப்பு திட்டங்கள்","nav.detail":"சட்ட மைல்கற்கள்","nav.map":"புவன் GIS","nav.field":"கள சரிபார்ப்பு","nav.dept":"துறை இயங்குதிறன்","nav.docs":"டிஜிலாக்கர் பதிவுகள்","nav.ai":"AI தாமத & இடர் இயந்திரம்","nav.alerts":"சட்ட எச்சரிக்கைகள்","nav.analytics":"தேசிய பகுப்பாய்வு","nav.landowner":"நில உரிமையாளர் இணையதளம்","nav.audit":"சைபர் தணிக்கை","nav.archives":"பல்லாண்டு காப்பகம் (2021–2027)","search.ph":"பதிவு ID, ULPIN, சர்வே எண், திட்டம் தேடுக...","logout":"வெளியேறு"},
+gu: {"nav.dashboard":"રાષ્ટ્રીય MIS","nav.projects":"સંપાદન પ્રોજેક્ટ્સ","nav.detail":"વૈધાનિક માઇલસ્ટોન્સ","nav.map":"ભુવન GIS","nav.field":"ક્ષેત્ર ચકાસણી","nav.dept":"વિભાગ આંતરસંચાલન","nav.docs":"ડિજિલોકર રેકોર્ડ્સ","nav.ai":"AI વિલંબ અને જોખમ એન્જિન","nav.alerts":"વૈધાનિક ચેતવણીઓ","nav.analytics":"રાષ્ટ્રીય વિશ્લેષણ","nav.landowner":"જમીનમાલિક પોર્ટલ","nav.audit":"સાયબર ઓડિટ ટ્રેઇલ","nav.archives":"બહુ-વાર્ષિક આર્કાઇવ્સ (2021–2027)","search.ph":"રેકોર્ડ ID, ULPIN, સર્વે નં, પ્રોજેક્ટ શોધો...","logout":"લોગઆઉટ"},
+kn: {"nav.dashboard":"ರಾಷ್ಟ್ರೀಯ MIS","nav.projects":"ಸ್ವಾಧೀನ ಯೋಜನೆಗಳು","nav.detail":"ಶಾಸನಬದ್ಧ ಮೈಲಿಗಲ್ಲುಗಳು","nav.map":"ಭುವನ್ GIS","nav.field":"ಕ್ಷೇತ್ರ ಪರಿಶೀಲನೆ","nav.dept":"ಇಲಾಖೆ ಪರಸ್ಪರ ಕಾರ್ಯ","nav.docs":"ಡಿಜಿಲಾಕರ್ ದಾಖಲೆಗಳು","nav.ai":"AI ವಿಳಂಬ ಮತ್ತು ಅಪಾಯ ಎಂಜಿನ್","nav.alerts":"ಶಾಸನಬದ್ಧ ಎಚ್ಚರಿಕೆಗಳು","nav.analytics":"ರಾಷ್ಟ್ರೀಯ ವಿಶ್ಲೇಷಣೆ","nav.landowner":"ಭೂಮಾಲೀಕ ಪೋರ್ಟಲ್","nav.audit":"ಸೈಬರ್ ಆಡಿಟ್ ಟ್ರಯಲ್","nav.archives":"ಬಹು-ವಾರ್ಷಿಕ ಆರ್ಕೈವ್ಸ್ (2021–2027)","search.ph":"ದಾಖಲೆ ID, ULPIN, ಸರ್ವೆ ನಂ, ಯೋಜನೆ ಹುಡುಕಿ...","logout":"ಲಾಗ್ಔಟ್"},
+ml: {"nav.dashboard":"ദേശീയ MIS","nav.projects":"ഏറ്റെടുക്കൽ പദ്ധതികൾ","nav.detail":"നിയമപരമായ നാഴികക്കല്ലുകൾ","nav.map":"ഭുവൻ GIS","nav.field":"ഫീൽഡ് പരിശോധന","nav.dept":"വകുപ്പ് പരസ്പര പ്രവർത്തനം","nav.docs":"ഡിജിലോക്കർ രേഖകൾ","nav.ai":"AI കാലതാമസ & റിസ്ക് എഞ്ചിൻ","nav.alerts":"നിയമപരമായ മുന്നറിയിപ്പുകൾ","nav.analytics":"ദേശീയ വിശകലനം","nav.landowner":"ഭൂവുടമ പോർട്ടൽ","nav.audit":"സൈബർ ഓഡിറ്റ് ട്രെയിൽ","nav.archives":"ബഹുവർഷ ആർക്കൈവുകൾ (2021–2027)","search.ph":"റെക്കോർഡ് ID, ULPIN, സർവേ നം, പദ്ധതി തിരയുക...","logout":"ലോഗൗട്ട്"},
+pa: {"nav.dashboard":"ਰਾਸ਼ਟਰੀ MIS","nav.projects":"ਐਕਵਾਇਰ ਪ੍ਰੋਜੈਕਟ","nav.detail":"ਵਿਧਾਨਕ ਮੀਲ ਪੱਥਰ","nav.map":"ਭੁਵਨ GIS","nav.field":"ਖੇਤਰ ਤਸਦੀਕ","nav.dept":"ਵਿਭਾਗ ਅੰਤਰ-ਸੰਚਾਲਨ","nav.docs":"ਡਿਜੀਲਾਕਰ ਰਿਕਾਰਡ","nav.ai":"AI ਦੇਰੀ ਅਤੇ ਜੋਖਮ ਇੰਜਣ","nav.alerts":"ਵਿਧਾਨਕ ਚੇਤਾਵਨੀਆਂ","nav.analytics":"ਰਾਸ਼ਟਰੀ ਵਿਸ਼ਲੇਸ਼ਣ","nav.landowner":"ਜ਼ਮੀਨ ਮਾਲਕ ਪੋਰਟਲ","nav.audit":"ਸਾਈਬਰ ਆਡਿਟ ਟ੍ਰੇਲ","nav.archives":"ਬਹੁ-ਸਾਲਾ ਪੁਰਾਲੇਖ (2021–2027)","search.ph":"ਰਿਕਾਰਡ ID, ULPIN, ਸਰਵੇ ਨੰ, ਪ੍ਰੋਜੈਕਟ ਖੋਜੋ...","logout":"ਲਾਗਆਉਟ"},
+or: {"nav.dashboard":"ଜାତୀୟ MIS","nav.projects":"ଅଧିଗ୍ରହଣ ପ୍ରକଳ୍ପ","nav.detail":"ବିଧିବଦ୍ଧ ମାଇଲଖୁଣ୍ଟ","nav.map":"ଭୁବନ GIS","nav.field":"କ୍ଷେତ୍ର ଯାଞ୍ଚ","nav.dept":"ବିଭାଗ ଅନ୍ତଃକାର୍ଯ୍ୟ","nav.docs":"ଡିଜିଲକର ରେକର୍ଡ","nav.ai":"AI ବିଳମ୍ବ ଓ ବିପଦ ଇଞ୍ଜିନ","nav.alerts":"ବିଧିବଦ୍ଧ ସତର୍କତା","nav.analytics":"ଜାତୀୟ ବିଶ୍ଳେଷଣ","nav.landowner":"ଜମି ମାଲିକ ପୋର୍ଟାଲ","nav.audit":"ସାଇବର ଅଡିଟ ଟ୍ରେଲ","nav.archives":"ବହୁବାର୍ଷିକ ଅଭିଲେଖ (2021–2027)","search.ph":"ରେକର୍ଡ ID, ULPIN, ସର୍ଭେ ନଂ, ପ୍ରକଳ୍ପ ଖୋଜନ୍ତୁ...","logout":"ଲଗଆଉଟ"},
+ur: {"nav.dashboard":"قومی MIS","nav.projects":"حصول اراضی منصوبے","nav.detail":"قانونی سنگ میل","nav.map":"بھون GIS","nav.field":"فیلڈ تصدیق","nav.dept":"محکمہ باہمی فعالیت","nav.docs":"ڈیجی لاکر ریکارڈ","nav.ai":"AI تاخیر و رسک انجن","nav.alerts":"قانونی انتباہات","nav.analytics":"قومی تجزیات","nav.landowner":"مالک اراضی پورٹل","nav.audit":"سائبر آڈٹ ٹریل","nav.archives":"کثیر سالہ آرکائیوز (2021–2027)","search.ph":"ریکارڈ ID، ULPIN، سروے نمبر، منصوبہ تلاش کریں...","logout":"لاگ آؤٹ"},
+as: {"nav.dashboard":"ৰাষ্ট্ৰীয় MIS","nav.projects":"অধিগ্ৰহণ প্ৰকল্প","nav.detail":"বিধিবদ্ধ মাইলখুঁটি","nav.map":"ভূৱন GIS","nav.field":"ক্ষেত্ৰ পৰীক্ষণ","nav.dept":"বিভাগীয় আন্তঃকাৰ্যক্ষমতা","nav.docs":"ডিজিলকাৰ ৰেকৰ্ড","nav.ai":"AI বিলম্ব আৰু বিপদ ইঞ্জিন","nav.alerts":"বিধিবদ্ধ সতৰ্কবাণী","nav.analytics":"ৰাষ্ট্ৰীয় বিশ্লেষণ","nav.landowner":"ভূমি মালিক পৰ্টেল","nav.audit":"চাইবাৰ অডিট ট্ৰেইল","nav.archives":"বহু-বাৰ্ষিক আৰ্কাইভ (2021–2027)","search.ph":"ৰেকৰ্ড ID, ULPIN, জৰীপ নং, প্ৰকল্প বিচাৰক...","logout":"লগআউট"}
+};
+let curLang = localStorage.getItem("nlas_lang") || "en";
+function setLang(code){
+  if (!I18N[code]) code = "en";
+  curLang = code; localStorage.setItem("nlas_lang", code); applyI18n();
+}
+function applyI18n(){
+  const d = I18N[curLang] || I18N.en;
+  document.querySelectorAll("[data-i18n]").forEach(el => {
+    const k = el.getAttribute("data-i18n");
+    if (d[k]) el.textContent = d[k];
+  });
+  const si = document.getElementById("universal-search-input");
+  if (si && d["search.ph"]) si.placeholder = d["search.ph"];
+  document.querySelectorAll(".btn-gov-logout").forEach(b => { if (d["logout"]) b.textContent = d["logout"]; });
+  document.documentElement.lang = curLang;
+  const sel = document.getElementById("lang-select");
+  if (sel) sel.value = curLang;
+}
+
+// ── AI DOCUMENT DISCREPANCY DETECTION ───────────────────────
+// Declared values extracted (simulated OCR) from each uploaded doc, checked vs revenue record
+const DOC_EVIDENCE = [
+  { parcel: "KA-00121", area: 2.4, survey: "Sy 112/3", comp: 840000 },
+  { parcel: "KA-00123", area: 2.6, survey: "Sy 115/2", comp: 840000 },
+  { parcel: "KA-00124", area: 1.8, survey: "Sy 88/4", comp: 620000 },
+  { parcel: "KA-00125", area: 4.0, survey: "Sy 91/2", comp: 1350000 },
+  { parcel: "KA-00121", area: 2.4, survey: "Sy 112/3", comp: 800000 },
+  { parcel: "KA-00127", area: 2.9, survey: "Sy 63/1", comp: 980000, families: 152 }
+];
+function runDiscrepancyScan(){
+  const rows = [];
+  const seenComp = {};
+  DB.docs.forEach((d, i) => {
+    const ev = DOC_EVIDENCE[i] || { parcel: "KA-00121", area: 0, survey: "", comp: 0 };
+    const pa = DB.parcels.find(p => p.id === ev.parcel);
+    if (!pa) return;
+    // 1. Area check (±0.05 acre tolerance)
+    const dArea = Math.abs(ev.area - pa.area);
+    if (dArea > 0.05) rows.push({ doc: d.name, parcel: pa.id, check: "Area mismatch (RTC vs doc)",
+      dv: ev.area.toFixed(1) + " ac declared vs " + pa.area.toFixed(1) + " ac record (Δ " + dArea.toFixed(1) + ")",
+      sev: dArea > 0.15 ? "HIGH" : "MEDIUM", act: "Re-survey parcel & correct " + (dArea > 0.15 ? "before award" : "at award stage") });
+    else rows.push({ doc: d.name, parcel: pa.id, check: "Area verification", dv: ev.area.toFixed(1) + " ac matches record", sev: "CLEAN", act: "No action" });
+    // 2. Survey number check (exact)
+    if (ev.survey !== pa.survey) rows.push({ doc: d.name, parcel: pa.id, check: "Survey No. mismatch",
+      dv: "Doc shows " + ev.survey + " vs record " + pa.survey, sev: "HIGH", act: "Halt award; verify with Bhoomi RTC immediately" });
+    // 3. Compensation variance (₹1000 tolerance)
+    const dComp = Math.abs(ev.comp - pa.comp);
+    if (dComp > 1000) rows.push({ doc: d.name, parcel: pa.id, check: "Compensation variance",
+      dv: "₹" + ev.comp.toLocaleString("en-IN") + " declared vs ₹" + pa.comp.toLocaleString("en-IN") + " award register (Δ ₹" + dComp.toLocaleString("en-IN") + ")",
+      sev: dComp > 20000 ? "HIGH" : "MEDIUM", act: "Reconcile with valuation award before PFMS release" });
+    // 4. Version conflict: same parcel, different declared compensation across versions
+    if (seenComp[ev.parcel] !== undefined && seenComp[ev.parcel] !== ev.comp)
+      rows.push({ doc: d.name, parcel: pa.id, check: "Version conflict across uploads",
+        dv: "v-prev ₹" + seenComp[ev.parcel].toLocaleString("en-IN") + " vs this version ₹" + ev.comp.toLocaleString("en-IN"),
+        sev: "MEDIUM", act: "Freeze older version; certify current version by District Officer" });
+    seenComp[ev.parcel] = ev.comp;
+    // 5. Family count check (R&R doc)
+    if (ev.families) {
+      const proj = getP();
+      if (ev.families !== proj.families) rows.push({ doc: d.name, parcel: pa.id, check: "Affected-family count mismatch",
+        dv: ev.families + " in R&R draft vs " + proj.families + " in SIA", sev: "LOW", act: "Reconcile SIA household list" });
+    }
+  });
+  // 6. Missing mandatory documents
+  const names = DB.docs.map(d => d.name.toLowerCase()).join(" | ");
+  if (!names.includes("encumbrance")) rows.push({ doc: "— (missing)", parcel: "LA-2026-001", check: "Missing mandatory document",
+    dv: "Encumbrance Certificate not uploaded", sev: "MEDIUM", act: "Call for EC from IGRS before award" });
+  if (!names.includes("panchnama") && !names.includes("possession certificate")) rows.push({ doc: "— (missing)", parcel: "LA-2026-001", check: "Missing mandatory document",
+    dv: "Possession Panchnama not uploaded", sev: "LOW", act: "Schedule possession panchnama with Field Officer" });
+
+  const sevColor = { HIGH: "#dc2626", MEDIUM: "#ea580c", LOW: "#ca8a04", CLEAN: "#16a34a" };
+  const counts = { HIGH: 0, MEDIUM: 0, LOW: 0, CLEAN: 0 };
+  rows.forEach(r => counts[r.sev]++);
+  document.getElementById("disc-summary").innerHTML =
+    ["HIGH","MEDIUM","LOW","CLEAN"].map(s => `<span class="badge" style="background:${sevColor[s]}22;color:${sevColor[s]};border:1px solid ${sevColor[s]};font-size:13px">${s}: ${counts[s]}</span>`).join("") +
+    `<span style="font-size:12px;color:#475569">Scanned ${DB.docs.length} documents • ${new Date().toLocaleString("en-IN")}</span>`;
+  document.getElementById("disc-rows").innerHTML = rows.map(r =>
+    `<tr><td>📄 ${esc(r.doc)}</td><td><b>${esc(r.parcel)}</b></td><td>${esc(r.check)}</td><td style="font-size:12px">${esc(r.dv)}</td>
+     <td><span class="badge" style="background:${sevColor[r.sev]}22;color:${sevColor[r.sev]};border:1px solid ${sevColor[r.sev]}">${r.sev}</span></td>
+     <td style="font-size:12px">${esc(r.act)}</td></tr>`).join("");
+  const highs = rows.filter(r => r.sev === "HIGH");
+  if (highs.length && !DB.alerts.some(a => a.msg.includes("Discrepancy scan"))) {
+    DB.alerts.unshift({ sev: "critical", msg: `AI Discrepancy scan: ${highs.length} HIGH finding(s) — ${highs[0].check} (${highs[0].parcel}). ${highs[0].act}.`, time: new Date().toLocaleString() });
+    save(); renderAlerts();
+  }
+  audit(`AI discrepancy scan: ${rows.length} checks, ${counts.HIGH} HIGH / ${counts.MEDIUM} MEDIUM`, "fetch");
+  try { showPage("docs"); } catch(e){}
+}
+
+// ── FIELD VERIFICATION (Panchnama) ──────────────────────────
+const FV_CHECKS = ["Boundary pillars & chainage match survey map","RTC / Khata holder matches claimant","Occupant statement recorded (Panchnama)","Geo-tagged site photographs captured","Measured area matches revenue record (±2%)"];
+function renderFieldPage(){
+  const sel = document.getElementById("fv-parcel");
+  if (!sel) return;
+  const cur = sel.value;
+  sel.innerHTML = DB.parcels.map(p => `<option value="${esc(p.id)}">${esc(p.id)} — ${esc(p.village)} (${esc(p.status)})</option>`).join("");
+  if (cur && DB.parcels.some(p => p.id === cur)) sel.value = cur;
+  renderFieldHistory();
+}
+function renderFieldHistory(){
+  const pid = document.getElementById("fv-parcel").value;
+  const pa = DB.parcels.find(p => p.id === pid);
+  const box = document.getElementById("fv-history");
+  if (!pa) { box.innerHTML = "Select a parcel."; return; }
+  const h = pa.fieldVerify;
+  let html = `<div style="font-size:13px;margin-bottom:8px"><b>${esc(pa.id)}</b> | ${esc(pa.village)} | ${esc(pa.survey)} | ${esc(pa.rtc)} | ${pa.area} ac<br/>Status: <b>${esc(pa.status)}</b> • Work: ${esc(pa.work_status||"—")}</div>`;
+  if (h) {
+    html += `<div style="background:#f0fdf4;border:1px solid #86efac;border-radius:6px;padding:10px;font-size:13px">
+      <b>✔ ${esc(h.status)}</b> — ${esc(h.date)} by ${esc(h.by)}<br/>
+      Checks passed: <b>${h.passed}/5</b><br/>
+      <small>${esc(h.notes||"")}</small></div>`;
+  } else html += `<div style="background:#fef9e7;border:1px solid #fde68a;border-radius:6px;padding:10px;font-size:13px">⚠ Not yet verified on ground.</div>`;
+  const others = DB.parcels.filter(p => p.fieldVerify);
+  if (others.length) html += `<h4 style="margin:10px 0 6px">Verified parcels (${others.length}/${DB.parcels.length})</h4>` +
+    others.map(p => `<div style="font-size:12px;padding:4px 0;border-bottom:1px solid #eee">✔ <b>${esc(p.id)}</b> — ${esc(p.fieldVerify.status)} • ${esc(p.fieldVerify.date)} • ${esc(p.fieldVerify.by)}</div>`).join("");
+  box.innerHTML = html;
+  const pend = DB.parcels.filter(p => !p.fieldVerify).length;
+  document.getElementById("field-pending-count").textContent = pend ? pend + " pending" : "All verified";
+}
+function submitFieldVerification(){
+  if (session && !["Field Officer","District Officer","Central Admin"].includes(session.role)) {
+    alert("Field verification requires Field / District / Admin role."); return;
+  }
+  const pid = document.getElementById("fv-parcel").value;
+  const pa = DB.parcels.find(p => p.id === pid);
+  if (!pa) return;
+  const passed = [1,2,3,4,5].filter(i => document.getElementById("fv-c"+i).checked);
+  const notes = document.getElementById("fv-notes").value.trim().slice(0, 500);
+  const status = passed.length === 5 ? "Verified" : "Partially Verified (" + passed.length + "/5)";
+  pa.fieldVerify = { date: new Date().toLocaleString("en-IN"), by: session ? session.role + " (" + session.email + ")" : "Field",
+    checks: passed, passed: passed.length, notes, status };
+  save();
+  audit(`Field verification ${pa.id}: ${status}`, "write");
+  if (passed.length < 5 && !DB.alerts.some(a => a.msg.includes("Field verification partial " + pa.id))) {
+    DB.alerts.unshift({ sev: "warning", msg: `Field verification partial ${pa.id}: ${passed.length}/5 checks. ${FV_CHECKS[[1,2,3,4,5].find(i => !passed.includes(i))-1]} pending.`, time: new Date().toLocaleString() });
+    save(); renderAlerts();
+  }
+  renderFieldHistory();
+  alert(status + " — report saved & audit-logged for " + pa.id);
+}
+
+// ── LANDOWNER PORTAL + COMPENSATION TRACKER ─────────────────
+const FAMILIES = [
+  { id: "FAM-KA-001", parcel: "KA-00121", holder: "R•••••• G•••", village: "Malur", area: 2.4, entitled: 840000, paid: 840000, dbt: "DBT-2026-88121", stage: 4 },
+  { id: "FAM-KA-002", parcel: "KA-00124", holder: "M••••••• S•••", village: "Tekal", area: 1.8, entitled: 620000, paid: 300000, dbt: "DBT-2026-88204", stage: 2 },
+  { id: "FAM-KA-003", parcel: "KA-00123", holder: "V•••••••• R••", village: "Malur", area: 2.4, entitled: 840000, paid: 0, dbt: "— (award pending)", stage: 1 },
+  { id: "FAM-KA-004", parcel: "KA-00127", holder: "L••••• D••••", village: "Huralagere", area: 2.9, entitled: 980000, paid: 400000, dbt: "DBT-2026-88317", stage: 2 },
+  { id: "FAM-KA-005", parcel: "KA-00126", holder: "S••••••• P•••••", village: "Huralagere", area: 2.0, entitled: 700000, paid: 700000, dbt: "DBT-2026-88092", stage: 4 }
+];
+const COMP_STAGES = ["Award Declared (Sec 19)","PFMS Sanction Initiated","DBT Credited to Account","Physical Possession Taken","R&R Entitlement Released"];
+function lookupFamily(){
+  const q = (document.getElementById("lo-search").value || "").trim().toUpperCase();
+  const box = document.getElementById("lo-result");
+  if (!q) { box.innerHTML = "<span style='color:#b91c1c'>Enter a Family ID or Parcel ID.</span>"; return; }
+  const f = FAMILIES.find(x => x.id === q || x.parcel === q);
+  if (!f) { box.innerHTML = `<span style='color:#b91c1c'>No record for “${esc(q)}”. Try FAM-KA-001 … FAM-KA-005 or KA-00121.</span>`; return; }
+  const pct = Math.round(f.paid / f.entitled * 100);
+  const steps = COMP_STAGES.map((s, i) => {
+    const cls = i < f.stage ? "done" : i === f.stage ? "warn" : "todo";
+    const icon = i < f.stage ? "✓" : i === f.stage ? "◉" : "○";
+    return `<div class="tstep ${cls}"><b>${icon} ${esc(s)}</b><br/><small>${i < f.stage ? "Completed" : i === f.stage ? "In progress" : "Pending"}</small></div>`;
+  }).join("");
+  box.innerHTML = `<div class="gov-panel" style="margin:0;border:1px solid #1a3d6d">
+    <div style="font-size:14px"><b>${esc(f.id)}</b> • Holder: <b>${esc(f.holder)} (masked)</b> • ${esc(f.village)} • Parcel <b>${esc(f.parcel)}</b> • ${f.area} ac</div>
+    <div style="display:flex;gap:16px;flex-wrap:wrap;margin:8px 0;font-size:13px">
+      <span>Entitled: <b>₹${f.entitled.toLocaleString("en-IN")}</b></span>
+      <span>DBT Paid: <b style="color:#166534">₹${f.paid.toLocaleString("en-IN")} (${pct}%)</b></span>
+      <span>Balance: <b style="color:#b91c1c">₹${(f.entitled-f.paid).toLocaleString("en-IN")}</b></span>
+      <span>DBT Ref: <b>${esc(f.dbt)}</b></span>
+    </div>
+    <div class="progress" style="margin:6px 0"><div style="width:${pct}%"></div></div>
+    <div class="timeline">${steps}</div></div>`;
+  audit("Landowner lookup " + f.id, "fetch");
+}
+function renderLandownerPage(){
+  const tot = FAMILIES.reduce((s,f) => s+f.entitled, 0);
+  const paid = FAMILIES.reduce((s,f) => s+f.paid, 0);
+  const pct = Math.round(paid/tot*100);
+  document.getElementById("lo-summary").innerHTML =
+    `<div style="font-size:13px">Sample cohort (5 PAFs, LA-2026-001): entitled <b>₹${tot.toLocaleString("en-IN")}</b>, disbursed <b style="color:#166534">₹${paid.toLocaleString("en-IN")} (${pct}%)</b></div>
+     <div class="progress" style="margin:8px 0"><div style="width:${pct}%"></div></div>` +
+    FAMILIES.map(f => { const p = Math.round(f.paid/f.entitled*100);
+      return `<div style="font-size:12px;padding:5px 0;border-bottom:1px solid #eee"><b>${esc(f.id)}</b> • ${esc(f.parcel)} • ₹${f.paid.toLocaleString("en-IN")} / ₹${f.entitled.toLocaleString("en-IN")} (${p}%) — ${esc(COMP_STAGES[f.stage])}</div>`; }).join("") +
+    `<div style="font-size:11.5px;color:#64748b;margin-top:6px">Full project: 148 families • ₹35.3 Cr via PFMS-DBT • Aadhaar/bank masked.</div>`;
+}
+
+// ── GRIEVANCE (Sec 15 / Sec 64 LARR) ────────────────────────
+function submitGrievance(){
+  const fam = (document.getElementById("gr-fam").value || "").trim().toUpperCase();
+  const cat = document.getElementById("gr-cat").value;
+  const txt = document.getElementById("gr-text").value.trim().slice(0, 1000);
+  const msg = document.getElementById("gr-msg");
+  if (!fam || !txt) { msg.innerHTML = "<span style='color:#b91c1c'>Family ID and details are required.</span>"; return; }
+  const ref = "GRV-2026-" + Math.floor(1000 + Math.random()*9000);
+  DB.alerts.unshift({ sev: "warning", msg: `Grievance ${ref} (${fam}): ${cat} — routed to District Collector for Sec-15 hearing.`, time: new Date().toLocaleString() });
+  save(); renderAlerts();
+  audit(`Grievance ${ref} filed for ${fam}: ${cat}`, "write");
+  msg.innerHTML = `<span style='color:#166534;font-weight:700'>✔ Grievance ${ref} registered.</span> Hearing notice will be issued u/s 15. Track status under Alerts.`;
+  document.getElementById("gr-text").value = "";
+}
+
 // ── INIT ──────────────────────────────────────────────────────
 newCaptcha();
 
@@ -1556,3 +1777,5 @@ if (session) {
   boot();
   startIdle();
 }
+// Apply saved portal language (default English)
+try { applyI18n(); } catch(e){}
